@@ -1,0 +1,9 @@
+node_modules/
+out/
+public/audio/
+public/out/
+*.log
+.piper/
+*.onnx
+*.bin
+.DS_Store
