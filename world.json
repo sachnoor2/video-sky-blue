@@ -1,0 +1,16 @@
+{
+  "palette": ["#0b0f14", "#f2efe9", "#6b7a4f", "#e8b84b"],
+  "lenses": [35, 50, 85],
+  "cameraHeight": [0.9, 1.6],
+  "keyLight": {"azimuth": 40, "elevation": 35, "kelvin": 5200},
+  "character": "character.glb",
+  "characterHeight": 1.75,
+  "props": [],
+  "grade": {"lut": "teal-amber", "grain": 0.04},
+  "cameras": {
+    "cam-wide": "establishing geography",
+    "cam-action": "the subject doing the thing",
+    "cam-macro": "the detail that proves it",
+    "cam-pov": "the character's eyes"
+  }
+}
