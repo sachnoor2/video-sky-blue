@@ -1,0 +1,147 @@
+name: render
+
+on:
+  workflow_dispatch:
+    inputs:
+      seconds_per_frame:
+        description: "Measured seconds per frame from the benchmark (raise it, never lower it)"
+        required: true
+        default: "9.0"
+
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Piper and the Hindi voice
+        run: |
+          mkdir -p .piper && cd .piper
+          curl -fsSL -o piper.tar.gz https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz
+          tar -xzf piper.tar.gz
+          ID=hi_IN-pratham-medium
+          curl -fsSL -o $ID.onnx "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/$ID.onnx"
+          curl -fsSL -o $ID.onnx.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/$ID.onnx.json"
+      - name: Narration
+        run: |
+          pip install -q imageio-ffmpeg
+          python scripts/hinglish_voice.py --script narration.json --out public/audio --piper .piper/piper/piper --voice .piper/hi_IN-pratham-medium.onnx
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voice
+          path: |
+            public/audio
+            src/manifest.json
+
+  plan:
+    needs: voice
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.plan.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: voice
+      - name: Shot list from the measured narration
+        run: python3 scripts/build_shotlist.py --manifest src/manifest.json --plan shotplan.json --out shotlist.json
+      - id: plan
+        run: echo "shards=$(python3 scripts/plan_shards.py --seconds-per-frame ${{ inputs.seconds_per_frame }} --json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plan
+          path: |
+            shotlist.json
+            shards.json
+
+  stills:
+    needs: plan
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: plan
+      - name: Blender
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq blender
+      - name: Build the world
+        run: blender -b -P scenes/make_world.py -- --shotlist shotlist.json --out scenes/world.blend
+      - name: One frame per shot
+        run: |
+          python3 - <<'EOF'
+          import json, subprocess
+          cfg = json.load(open("shotlist.json"))
+          for s in cfg["shots"]:
+              mid = (s["start"] + s["end"]) // 2
+              subprocess.run(["blender", "-b", "scenes/world.blend", "-P", "scenes/render.py", "--",
+                              "--camera", s["camera"], "--start", str(mid), "--end", str(mid),
+                              "--out", "public/stills", "--samples", "12"], check=True)
+          EOF
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stills
+          path: public/stills/frame_*.png
+          if-no-files-found: warn
+
+  render:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+      max-parallel: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: plan
+      - name: Blender
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq blender
+      - name: Build the world
+        run: blender -b -P scenes/make_world.py -- --shotlist shotlist.json --out scenes/world.blend
+      - name: Render shard
+        run: python3 scripts/render_shard.py --start ${{ matrix.shard.start }} --end ${{ matrix.shard.end }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frames-${{ matrix.shard.index }}
+          path: public/out/frame_*.png
+          if-no-files-found: warn
+
+  assemble:
+    needs: [voice, render]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: frames-*
+          merge-multiple: true
+          path: public/out
+      - uses: actions/download-artifact@v4
+        with:
+          name: voice
+      - uses: actions/download-artifact@v4
+        with:
+          name: plan
+      - name: Install
+        run: if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
+      - run: npx tsc --noEmit
+      - run: python3 scripts/stitch.py
+      - run: python3 scripts/qa.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video
+          path: |
+            out/video.mp4
+            qa.log
+          if-no-files-found: error
+          retention-days: 14
