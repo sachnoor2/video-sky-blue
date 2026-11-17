@@ -1,0 +1,223 @@
+{
+  "fps": 30,
+  "width": 720,
+  "height": 1280,
+  "world": "scenes/world.blend",
+  "totalFrames": 1967,
+  "sets": [
+    "set-sky",
+    "set-beam",
+    "set-orbit"
+  ],
+  "shots": [
+    {
+      "id": "01-hook",
+      "start": 0,
+      "end": 173,
+      "camera": "cam-action",
+      "set": "set-sky",
+      "sim": "scatter-field",
+      "character": "person-lookout",
+      "stateIn": "person on the ground, head level, sky above",
+      "stateOut": "person's head tilted back, sky dome fills the top of frame",
+      "motion": [
+        "tilt up",
+        "molecule drift"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "02-white-light",
+      "start": 174,
+      "end": 296,
+      "camera": "cam-macro",
+      "set": "set-beam",
+      "sim": "beam-fan",
+      "character": "none",
+      "stateIn": "one white beam travelling down through dark air",
+      "stateOut": "beam split into five colour bands along its length",
+      "motion": [
+        "beam",
+        "band spread"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "03-molecules",
+      "start": 297,
+      "end": 509,
+      "camera": "cam-macro",
+      "set": "set-beam",
+      "sim": "scatter-field",
+      "character": "none",
+      "stateIn": "empty air in front of the beam",
+      "stateOut": "molecule spheres fill the beam path, far smaller than the wave",
+      "motion": [
+        "molecule drift",
+        "scale cue"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "04-scatter",
+      "start": 510,
+      "end": 690,
+      "camera": "cam-action",
+      "set": "set-beam",
+      "sim": "beam-fan",
+      "character": "none",
+      "stateIn": "beam strikes one molecule, no fan yet",
+      "stateOut": "blue fan opens wide, red fan stays narrow",
+      "motion": [
+        "fan open",
+        "molecule recoil"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "05-number",
+      "start": 691,
+      "end": 842,
+      "camera": "cam-macro",
+      "set": "set-beam",
+      "sim": "beam-fan",
+      "character": "none",
+      "stateIn": "two equal bars, blue and red",
+      "stateOut": "blue bar grown to 5.9 units against red at 1",
+      "motion": [
+        "bar growth",
+        "number settle"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "06-violet",
+      "start": 843,
+      "end": 994,
+      "camera": "cam-macro",
+      "set": "set-beam",
+      "sim": "beam-fan",
+      "character": "none",
+      "stateIn": "violet fan closed beside the blue one",
+      "stateOut": "violet fan widest of all, dimmed by the eye's response",
+      "motion": [
+        "violet fan",
+        "dim ramp"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "07-all-directions",
+      "start": 995,
+      "end": 1110,
+      "camera": "cam-pov",
+      "set": "set-sky",
+      "sim": "scatter-field",
+      "character": "person-lookout",
+      "stateIn": "eye looking at a flat pale sky",
+      "stateOut": "scattered blue arriving from every direction, sky saturated",
+      "motion": [
+        "molecule drift",
+        "sky saturate"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "08-sunset-path",
+      "start": 1111,
+      "end": 1243,
+      "camera": "cam-wide",
+      "set": "set-sky",
+      "sim": "wave",
+      "character": "person-lookout",
+      "stateIn": "sun high, short vertical path through air",
+      "stateOut": "sun at the horizon, path stretched 38x across the frame",
+      "motion": [
+        "sun drop",
+        "path stretch",
+        "horizon shimmer"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "09-sunset-red",
+      "start": 1244,
+      "end": 1395,
+      "camera": "cam-macro",
+      "set": "set-sky",
+      "sim": "wave",
+      "character": "none",
+      "stateIn": "sun disc white-yellow at the horizon",
+      "stateOut": "sun disc deep orange-red, blue gone from the beam",
+      "motion": [
+        "colour ramp",
+        "shimmer"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "10-space",
+      "start": 1396,
+      "end": 1511,
+      "camera": "cam-wide",
+      "set": "set-orbit",
+      "sim": "orbit",
+      "character": "astronaut",
+      "stateIn": "astronaut above the limb, sky black",
+      "stateOut": "Earth rotated, astronaut drifts across frame, no blue anywhere but the limb",
+      "motion": [
+        "earth rotate",
+        "astronaut drift"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "11-thin-layer",
+      "start": 1512,
+      "end": 1627,
+      "camera": "cam-action",
+      "set": "set-orbit",
+      "sim": "orbit",
+      "character": "astronaut",
+      "stateIn": "astronaut turns toward the planet",
+      "stateOut": "thin blue shell visible along the limb, astronaut framed against it",
+      "motion": [
+        "astronaut turn",
+        "shell pulse"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "12-no-air",
+      "start": 1628,
+      "end": 1743,
+      "camera": "cam-macro",
+      "set": "set-orbit",
+      "sim": "wave",
+      "character": "none",
+      "stateIn": "limb edge sharp, shell a hard line",
+      "stateOut": "shell line thin and glowing, black sky above it",
+      "motion": [
+        "shell pulse",
+        "limb drift"
+      ],
+      "samples": 16
+    },
+    {
+      "id": "13-recap",
+      "start": 1744,
+      "end": 1966,
+      "camera": "cam-action",
+      "set": "set-sky",
+      "sim": "scatter-field",
+      "character": "person-lookout",
+      "stateIn": "person standing, sky blue overhead",
+      "stateOut": "person looks up, blue sky held",
+      "motion": [
+        "tilt up",
+        "molecule drift"
+      ],
+      "samples": 16
+    }
+  ]
+}
