@@ -30,22 +30,22 @@ ORBIT = -200.0
 # rot is degrees (x, y, z). rx 90 looks level along +Y; rx < 90 looks down, rx > 90 looks up.
 # rz > 0 swings the view toward -X, rz < 0 toward +X.
 CAMS = {
-    # --- set-sky: person at (0, -9.5, 0), sun at (0, 70, 46)
-    "01-hook":           ("cam-action", 30, (0.0, -13.0, 1.55), (88, 0, 0),   (0.0, -12.4, 1.62), (114, 0, 0)),
-    "07-all-directions": ("cam-pov",    24, (0.0, -13.0, 1.60), (101, 0, -7), (0.0, -13.0, 1.60), (104, 0, 7)),
-    "08-sunset-path":    ("cam-wide",   32, (0.0, -34.0, 7.0),  (84, 0, 0),   (0.0, -26.0, 5.5),  (86, 0, 0)),
-    "09-sunset-red":     ("cam-macro",  70, (0.0, -15.0, 1.50), (86, 0, 0),   (0.0, -13.2, 1.52), (87, 0, 0)),
-    "13-recap":          ("cam-action", 30, (0.0, -12.6, 1.50), (88, 0, 0),   (0.0, -12.2, 1.56), (110, 0, 0)),
-    # --- set-beam: shaft and molecule at (196, -4, z), bars at (198.7 / 201.3, -2.2)
-    "02-white-light":    ("cam-macro",  45, (199.0, -12.0, 3.0), (83, 0, 21), (198.2, -10.5, 2.8), (84, 0, 20)),
-    "03-molecules":      ("cam-macro",  50, (198.5, -9.5, 3.0),  (84, 0, 16), (197.8, -8.6, 3.1),  (84, 0, 15)),
-    "04-scatter":        ("cam-action", 35, (199.5, -14.0, 4.5), (84, 0, 22), (198.8, -12.5, 4.2), (85, 0, 21)),
-    "05-number":         ("cam-macro",  40, (200.0, -10.0, 2.6), (89, 0, 0),  (200.4, -9.2, 2.5),  (89, 0, 0)),
-    "06-violet":         ("cam-macro",  45, (199.0, -12.0, 5.0), (88, 0, 20), (198.6, -10.8, 4.6), (89, 0, 19)),
-    # --- set-orbit: Earth centre (-200, 0, -22) r 20, astronaut at (-226, -24, 4)
-    "10-space":          ("cam-wide",   30, (-216.0, -40.0, 10.0), (85, 0, -38), (-214.0, -35.0, 9.0), (86, 0, -36)),
-    "11-thin-layer":     ("cam-action", 38, (-234.0, -32.0, 5.0),  (86, 0, -44), (-231.0, -29.0, 4.6), (87, 0, -42)),
-    "12-no-air":         ("cam-macro",  68, (-218.0, -28.0, 2.5),  (66, 0, -22), (-216.0, -26.0, 3.2), (68, 0, -20)),
+    # --- set-sky: person at (0, -9.5, 0), sun high at (0, 70, 62)
+    "01-hook":           ("cam-action", 30, (0.0, -13.0, 1.55), (92, 0, 0),   (0.0, -12.4, 1.62), (118, 0, 0)),
+    "07-all-directions": ("cam-pov",    24, (0.0, -13.0, 1.70), (106, 0, -7), (0.0, -13.0, 1.70), (109, 0, 7)),
+    "08-sunset-path":    ("cam-wide",   32, (0.0, -34.0, 7.0),  (88, 0, 0),   (0.0, -26.0, 5.5),  (90, 0, 0)),
+    "09-sunset-red":     ("cam-macro",  40, (0.0, -22.0, 2.0),  (89, 0, 0),   (0.0, -19.0, 1.9),  (89, 0, 0)),
+    "13-recap":          ("cam-action", 30, (0.0, -12.6, 1.50), (96, 0, 0),   (0.0, -12.2, 1.56), (116, 0, 0)),
+    # --- set-beam: shaft and molecule at (200, -4, z), bars at (199.3 / 200.7, -1)
+    "02-white-light":    ("cam-macro",  35, (200.2, -13.0, 3.2), (84, 0, 0),  (200.0, -11.5, 3.0), (85, 0, 0)),
+    "03-molecules":      ("cam-macro",  40, (200.3, -11.0, 2.6), (85, 0, 0),  (200.1, -9.8, 2.7),  (84, 0, 0)),
+    "04-scatter":        ("cam-action", 30, (200.4, -14.0, 4.0), (84, 0, 0),  (200.2, -12.2, 3.8), (85, 0, 0)),
+    "05-number":         ("cam-macro",  32, (200.0, -9.5, 1.20), (87, 0, 0),  (200.2, -8.6, 1.15), (87, 0, 0)),
+    "06-violet":         ("cam-macro",  35, (200.4, -11.0, 3.4), (85, 0, 0),  (200.2, -9.8, 3.2),  (86, 0, 0)),
+    # --- set-orbit: Earth centre (-200, 12, -12) r 6, astronaut at (-202, -2, 3)
+    "10-space":          ("cam-wide",   28, (-200.0, -14.0, 12.0), (46, 0, 0),  (-200.0, -10.0, 10.5), (47, 0, 0)),
+    "11-thin-layer":     ("cam-action", 35, (-201.0, -6.0, 6.0),   (60, 0, -6), (-201.0, -4.0, 5.4),   (62, 0, -5)),
+    "12-no-air":         ("cam-macro",  50, (-196.0, 0.0, -2.0),   (52, 0, 18), (-195.0, -2.0, -1.4),  (53, 0, 17)),
 }
 
 
@@ -330,34 +330,34 @@ def make_figure(prefix, base, suit, skin):
 
 
 def build_sky(shotlist):
-    ground_mat = surface_mat("sky-ground", (0.045, 0.055, 0.05), rough=0.95)
+    ground_mat = surface_mat("sky-ground", (0.020, 0.026, 0.034), rough=0.95)
     plane("sky-ground", (0, 0, -0.02), 600, ground_mat)
 
     # two domes at almost the same radius: the daytime sky, and the sunset sky underneath it.
     # Only one is opaque at a time, cross-faded on the Mix Shader's Fac - a cut-safe colour change.
-    day = sky_mat("sky-dome-day", top=(0.055, 0.20, 0.62), horizon=(0.62, 0.78, 0.95),
-                  strength=1.35, blend=1.0)
+    day = sky_mat("sky-dome-day", top=(0.075, 0.235, 0.62), horizon=(0.72, 0.85, 0.96),
+                  strength=0.85, blend=1.0)
     sphere("sky-dome-day", (0, 0, 0), 120.0, day, seg=64, ring=32)
-    dusk = sky_mat("sky-dome-dusk", top=(0.20, 0.08, 0.26), horizon=(1.00, 0.52, 0.20),
-                   strength=1.35, blend=0.0)
+    dusk = sky_mat("sky-dome-dusk", top=(0.26, 0.09, 0.24), horizon=(1.00, 0.50, 0.18),
+                   strength=0.85, blend=0.0)
     sphere("sky-dome-dusk", (0, 0, 0), 119.2, dusk, seg=64, ring=32)
 
-    sun_mat = emission_mat("sky-sun", (1.0, 0.96, 0.86), 9.0)
-    sun = sphere("sky-sun", (0, 70, 46), 5.0, sun_mat, seg=24, ring=12)
+    sun_mat = emission_mat("sky-sun", (1.0, 0.95, 0.82), 2.4)
+    sun = sphere("sky-sun", (0, 70, 62), 4.0, sun_mat, seg=24, ring=12)
 
-    mol_mat = emission_mat("sky-molecule", (0.62, 0.82, 1.0), 2.6)
+    mol_mat = emission_mat("sky-molecule", (0.55, 0.78, 1.0), 0.95)
     molecules, bases = [], []
     n = 0
-    for i in range(6):
-        for j in range(5):
+    for i in range(5):
+        for j in range(4):
             for k in range(2):
-                loc = (-22.0 + i * 8.8, -16.0 + j * 8.0, 4.0 + k * 9.0 + (i % 3) * 1.6)
-                molecules.append(sphere(f"sky-mol-{n}", loc, 0.30, mol_mat, seg=12, ring=6))
+                loc = (-18.0 + i * 9.0, -14.0 + j * 9.0, 5.0 + k * 11.0 + (i % 3) * 1.4)
+                molecules.append(sphere(f"sky-mol-{n}", loc, 0.085, mol_mat, seg=10, ring=6))
                 bases.append(loc)
                 n += 1
 
-    person_mat = surface_mat("sky-person", (0.06, 0.07, 0.09), rough=0.8)
-    skin_mat = surface_mat("sky-skin", (0.10, 0.08, 0.07), rough=0.7)
+    person_mat = surface_mat("sky-person", (0.05, 0.06, 0.08), rough=0.8)
+    skin_mat = surface_mat("sky-skin", (0.09, 0.07, 0.06), rough=0.7)
     make_figure("sky-person", (0.0, -9.5, 0.0), person_mat, skin_mat)
 
     # --- motion, keyed inside each shot's own window
@@ -368,17 +368,17 @@ def build_sky(shotlist):
     f0, f1 = shot_window(shotlist, "07-all-directions")
     for i, m in enumerate(molecules):
         bob(m, bases[i], f0, f1, amp=0.5, phase=i * 0.37)
-    key_strength(day, f0, 1.25)
-    key_strength(day, f1, 2.10)          # the sky saturates as the scattered light arrives
+    key_strength(day, f0, 0.80)
+    key_strength(day, f1, 1.15)          # the sky saturates as the scattered light arrives
 
     # sunset: the sun drops, the long path eats the blue, the dusk dome takes over
     f0, f1 = shot_window(shotlist, "08-sunset-path")
-    key_loc(sun, f0, (0, 70, 46))
+    key_loc(sun, f0, (0, 70, 62))
     key_loc(sun, f1, (0, 70, 3.0))
     key_fac(dusk, f0, 0.0)
     key_fac(dusk, f1, 1.0)
-    key_color(sun_mat, f0, (1.0, 0.96, 0.86))
-    key_color(sun_mat, f1, (1.0, 0.62, 0.28))
+    key_color(sun_mat, f0, (1.0, 0.95, 0.82))
+    key_color(sun_mat, f1, (1.0, 0.60, 0.26))
     for i, m in enumerate(molecules):
         bob(m, bases[i], f0, f1, amp=0.25, phase=i * 0.21)
 
@@ -387,78 +387,76 @@ def build_sky(shotlist):
     key_loc(sun, f1, (0, 70, 2.2))
     key_fac(dusk, f0, 1.0)
     key_fac(dusk, f1, 1.0)
-    key_color(sun_mat, f0, (1.0, 0.62, 0.28))
-    key_color(sun_mat, f1, (1.0, 0.28, 0.10))
-    key_strength(sun_mat, f0, 7.0)
-    key_strength(sun_mat, f1, 4.0)
+    key_color(sun_mat, f0, (1.0, 0.60, 0.26))
+    key_color(sun_mat, f1, (1.0, 0.26, 0.09))
+    key_strength(sun_mat, f0, 2.2)
+    key_strength(sun_mat, f1, 1.4)
 
     f0, f1 = shot_window(shotlist, "13-recap")
     key_fac(dusk, f0, 0.0)
     key_fac(dusk, f1, 0.0)
-    key_strength(day, f0, 1.5)
-    key_strength(day, f1, 1.7)
+    key_strength(day, f0, 0.90)
+    key_strength(day, f1, 1.00)
     for i, m in enumerate(molecules):
         bob(m, bases[i], f0, f1, amp=0.4, phase=i * 0.37)
 
 
-
 def build_beam(shotlist):
     x = BEAM
-    floor = surface_mat("beam-floor", (0.02, 0.022, 0.03), rough=0.9)
+    floor = surface_mat("beam-floor", (0.014, 0.016, 0.022), rough=0.9)
     plane("beam-floor", (x, 0, -0.02), 80, floor)
 
-    beam_mat = emission_mat("beam-shaft", (1.0, 0.98, 0.95), 3.0)
-    cylinder("beam-shaft", (x - 4.0, -4.0, 14.0), 0.42, 28.0, beam_mat, verts=24)
+    beam_mat = emission_mat("beam-shaft", (1.0, 0.97, 0.92), 1.0)
+    cylinder("beam-shaft", (x, -4.0, 15.0), 0.18, 30.0, beam_mat, verts=24)
 
-    mol_mat = emission_mat("beam-molecule", (0.85, 0.93, 1.0), 3.4)
-    sphere("beam-molecule", (x - 4.0, -4.0, 4.0), 1.0, mol_mat, seg=24, ring=12)
+    mol_mat = emission_mat("beam-molecule", (0.88, 0.94, 1.0), 1.2)
+    sphere("beam-molecule", (x, -4.0, 5.0), 0.55, mol_mat, seg=24, ring=12)
 
     # four scattering fans: the wider the cone, the harder that colour is thrown
     spec = {
-        "violet": ((0.55, 0.35, 0.95), 3.2, -0.95),
-        "blue":   ((0.20, 0.45, 1.00), 2.6, -0.42),
-        "green":  ((0.25, 0.85, 0.45), 1.5,  0.26),
-        "red":    ((1.00, 0.22, 0.15), 0.55, 0.86),
+        "violet": ((0.52, 0.30, 0.95), 2.2, -0.95),
+        "blue":   ((0.16, 0.42, 1.00), 1.8, -0.42),
+        "green":  ((0.22, 0.82, 0.42), 1.0,  0.26),
+        "red":    ((1.00, 0.20, 0.12), 0.35, 0.86),
     }
     fans = {}
     for name, (col, width, tilt) in spec.items():
-        m = emission_mat(f"beam-fan-{name}", col, 2.2)
+        m = emission_mat(f"beam-fan-{name}", col, 0.9)
         d = (math.sin(tilt), 0.0, math.cos(tilt))
-        depth = 7.0
+        depth = 5.0
         ob = cone(f"beam-fan-{name}",
-                  (x - 4.0 + d[0] * depth * 0.5, -4.0, 4.0 + d[2] * depth * 0.5),
-                  0.12, width, depth, m, rot=(0, tilt, 0))
+                  (x + d[0] * depth * 0.5, -4.0, 5.0 + d[2] * depth * 0.5),
+                  0.10, width, depth, m, rot=(0, tilt, 0))
         fans[name] = (ob, m, tilt, depth)
 
     # two bars for the number shot: blue 5.9 against red 1.0
-    bar_blue_mat = emission_mat("beam-bar-blue", (0.20, 0.45, 1.00), 2.6)
-    bar_red_mat = emission_mat("beam-bar-red", (1.00, 0.22, 0.15), 2.6)
-    bar_b = cube("beam-bar-blue", (x - 1.3, -2.2, 0.0), 0.55, bar_blue_mat, origin_at_base=True)
-    bar_r = cube("beam-bar-red", (x + 1.3, -2.2, 0.0), 0.55, bar_red_mat, origin_at_base=True)
+    bar_blue_mat = emission_mat("beam-bar-blue", (0.16, 0.42, 1.00), 1.2)
+    bar_red_mat = emission_mat("beam-bar-red", (1.00, 0.20, 0.12), 1.2)
+    bar_b = cube("beam-bar-blue", (x - 0.7, -1.0, 0.0), 0.30, bar_blue_mat, origin_at_base=True)
+    bar_r = cube("beam-bar-red", (x + 0.7, -1.0, 0.0), 0.30, bar_red_mat, origin_at_base=True)
 
-    num_mat = emission_mat("beam-number", (1.0, 0.97, 0.9), 3.0)
-    label("beam-number-59", "5.9x", (x - 1.3, -2.35, 3.6), 0.85, num_mat, rot=(90 * D, 0, 0))
-    label("beam-number-1", "1x", (x + 1.3, -2.35, 1.35), 0.62, num_mat, rot=(90 * D, 0, 0))
+    num_mat = emission_mat("beam-number", (1.0, 0.97, 0.9), 1.6)
+    label("beam-number-59", "5.9x", (x - 0.7, -1.1, 2.15), 0.42, num_mat, rot=(90 * D, 0, 0))
+    label("beam-number-1", "1x", (x + 0.7, -1.1, 0.62), 0.30, num_mat, rot=(90 * D, 0, 0))
 
     # 02: the white beam, no fans yet
     f0, f1 = shot_window(shotlist, "02-white-light")
-    key_strength(beam_mat, f0, 2.2)
-    key_strength(beam_mat, f1, 3.4)
+    key_strength(beam_mat, f0, 0.8)
+    key_strength(beam_mat, f1, 1.1)
     for name, (ob, m, tilt, depth) in fans.items():
         key_scale(ob, f0, (1, 1, 0.001))
         key_scale(ob, f1, (1, 1, 0.001))
         key_strength(m, f0, 0.0)
         key_strength(m, f1, 0.0)
-    key_scale(bar_b, f0, (1, 1, 0.001))
-    key_scale(bar_b, f1, (1, 1, 0.001))
-    key_scale(bar_r, f0, (1, 1, 0.001))
-    key_scale(bar_r, f1, (1, 1, 0.001))
+    for b in (bar_b, bar_r):
+        key_scale(b, f0, (1, 1, 0.001))
+        key_scale(b, f1, (1, 1, 0.001))
 
     # 03: molecules appear in the beam path
     f0, f1 = shot_window(shotlist, "03-molecules")
     for i in range(9):
-        loc = (x - 6.0 + (i % 3) * 1.9, -4.6 + (i // 3) * 0.6, 2.0 + i * 1.6)
-        m = sphere(f"beam-mol-{i}", loc, 0.16, mol_mat, seg=10, ring=6)
+        loc = (x - 0.5 + (i % 3) * 0.5, -4.4 + (i // 3) * 0.35, 2.0 + i * 1.5)
+        m = sphere(f"beam-mol-{i}", loc, 0.055, mol_mat, seg=10, ring=6)
         key_scale(m, f0, (0.001, 0.001, 0.001))
         key_scale(m, f0 + 12 + i * 2, (1, 1, 1))
         key_scale(m, f1, (1, 1, 1))
@@ -471,56 +469,56 @@ def build_beam(shotlist):
         key_scale(ob, f0 + 10, (1, 1, 0.55))
         key_scale(ob, f1, (1, 1, 1.0))
         key_strength(m, f0, 0.0)
-        key_strength(m, f0 + 6, 2.2)
-        key_strength(m, f1, 2.6)
+        key_strength(m, f0 + 6, 0.9)
+        key_strength(m, f1, 1.0)
 
     # 05: the bars grow to 5.9 : 1
     f0, f1 = shot_window(shotlist, "05-number")
     key_scale(bar_b, f0, (1, 1, 0.001))
-    key_scale(bar_b, f1, (1, 1, 5.9 * 0.55))
+    key_scale(bar_b, f1, (1, 1, 5.9 * 0.30))
     key_scale(bar_r, f0, (1, 1, 0.001))
-    key_scale(bar_r, f1, (1, 1, 1.0 * 0.55))
-    key_strength(bar_blue_mat, f0, 0.4)
-    key_strength(bar_blue_mat, f1, 2.8)
-    key_strength(bar_red_mat, f0, 0.4)
-    key_strength(bar_red_mat, f1, 2.8)
+    key_scale(bar_r, f1, (1, 1, 1.0 * 0.30))
+    key_strength(bar_blue_mat, f0, 0.3)
+    key_strength(bar_blue_mat, f1, 1.3)
+    key_strength(bar_red_mat, f0, 0.3)
+    key_strength(bar_red_mat, f1, 1.3)
 
     # 06: violet is thrown hardest, then dimmed by the eye
     f0, f1 = shot_window(shotlist, "06-violet")
     ob, m, tilt, depth = fans["violet"]
     key_scale(ob, f0, (1, 1, 0.55))
     key_scale(ob, f1, (1, 1, 1.15))
-    key_strength(m, f0, 3.0)
-    key_strength(m, f1, 1.1)
+    key_strength(m, f0, 1.2)
+    key_strength(m, f1, 0.45)
     for name in ("blue", "green", "red"):
         ob2, m2, _t, _d = fans[name]
-        key_strength(m2, f0, 2.0)
-        key_strength(m2, f1, 0.9)
+        key_strength(m2, f0, 0.9)
+        key_strength(m2, f1, 0.35)
 
 
 def build_orbit(shotlist):
     x = ORBIT
-    centre = (x, 0.0, -22.0)
+    centre = (x, 12.0, -12.0)
 
-    earth = sphere("orbit-earth", centre, 20.0, earth_mat("orbit-earth-mat"), seg=64, ring=32)
-    shell = sphere("orbit-shell", centre, 20.42, limb_mat("orbit-shell-mat", (0.30, 0.55, 1.0), 10.0),
-                   seg=64, ring=32)
+    earth = sphere("orbit-earth", centre, 6.0, earth_mat("orbit-earth-mat"), seg=64, ring=32)
+    shell = sphere("orbit-shell", centre, 6.12,
+                   limb_mat("orbit-shell-mat", (0.32, 0.58, 1.0), 1.6), seg=64, ring=32)
 
-    sun_mat = emission_mat("orbit-sun", (1.0, 0.98, 0.92), 18.0)
-    sphere("orbit-sun", (x - 60, 150, 55), 4.0, sun_mat, seg=16, ring=8)
+    sun_mat = emission_mat("orbit-sun", (1.0, 0.98, 0.92), 3.0)
+    sphere("orbit-sun", (x - 40, 90, 40), 2.0, sun_mat, seg=16, ring=8)
 
-    star_mat = emission_mat("orbit-star", (0.9, 0.95, 1.0), 4.0)
+    star_mat = emission_mat("orbit-star", (0.9, 0.95, 1.0), 1.5)
     for i in range(40):
         a = i * 2.399963
-        r = 70.0 + (i % 7) * 6.0
-        zz = -30.0 + (i * 37 % 90)
-        sphere(f"orbit-star-{i}", (x + r * math.cos(a), 30.0 + r * 0.6 * math.sin(a), zz),
-               0.22, star_mat, seg=8, ring=4)
+        r = 40.0 + (i % 7) * 4.0
+        zz = -10.0 + (i * 37 % 40)
+        sphere(f"orbit-star-{i}", (x + r * math.cos(a), 25.0 + r * 0.6 * math.sin(a), zz),
+               0.14, star_mat, seg=8, ring=4)
 
-    suit = surface_mat("orbit-suit", (0.82, 0.84, 0.88), rough=0.45,
-                       emit=(0.9, 0.92, 0.95), emit_strength=0.35)
+    suit = surface_mat("orbit-suit", (0.80, 0.83, 0.88), rough=0.45,
+                       emit=(0.9, 0.92, 0.95), emit_strength=0.18)
     visor = surface_mat("orbit-visor", (0.02, 0.03, 0.05), rough=0.1, metal=0.9)
-    base = (x - 26.0, -24.0, 4.0)
+    base = (x - 2.0, -2.0, 3.0)
     parts = make_figure("orbit-astro", base, suit, suit)
     parts.append(sphere("orbit-helmet", (base[0], base[1], base[2] + 1.44), 0.26, suit))
     parts.append(sphere("orbit-visor", (base[0], base[1] - 0.16, base[2] + 1.44), 0.17, visor))
@@ -529,28 +527,30 @@ def build_orbit(shotlist):
 
     f0, f1 = shot_window(shotlist, "10-space")
     key_rot(earth, f0, (0, 0, 0))
-    key_rot(earth, f1, (0, 0, 0.10))
+    key_rot(earth, f1, (0, 0, 0.12))
     for i, p in enumerate(parts):
         key_loc(p, f0, bases[i])
-        key_loc(p, f1, (bases[i][0] + 1.6, bases[i][1] + 0.9, bases[i][2] - 0.5))
-    key_strength(shell_mat, f0, 9.0)
-    key_strength(shell_mat, f1, 11.0)
+        key_loc(p, f1, (bases[i][0] + 0.9, bases[i][1] + 0.5, bases[i][2] - 0.3))
+    key_strength(shell_mat, f0, 1.4)
+    key_strength(shell_mat, f1, 1.9)
 
     f0, f1 = shot_window(shotlist, "11-thin-layer")
-    key_rot(earth, f0, (0, 0, 0.10))
-    key_rot(earth, f1, (0, 0, 0.18))
+    key_rot(earth, f0, (0, 0, 0.12))
+    key_rot(earth, f1, (0, 0, 0.20))
     for i, p in enumerate(parts):
-        key_loc(p, f0, (bases[i][0] + 1.6, bases[i][1] + 0.9, bases[i][2] - 0.5))
-        key_loc(p, f1, (bases[i][0] + 1.8, bases[i][1] - 0.9, bases[i][2] - 0.1))
-    key_strength(shell_mat, f0, 11.0)
-    key_strength(shell_mat, f1, 13.0)
+        key_loc(p, f0, (bases[i][0] + 0.9, bases[i][1] + 0.5, bases[i][2] - 0.3))
+        key_loc(p, f1, (bases[i][0] + 1.0, bases[i][1] - 0.6, bases[i][2] + 0.1))
+    key_strength(shell_mat, f0, 1.9)
+    key_strength(shell_mat, f1, 2.4)
 
     f0, f1 = shot_window(shotlist, "12-no-air")
     key_scale(shell, f0, (1, 1, 1))
-    key_scale(shell, f0 + 12, (1.006, 1.006, 1.006))
+    key_scale(shell, f0 + 12, (1.004, 1.004, 1.004))
     key_scale(shell, f1, (1.0, 1.0, 1.0))
-    key_rot(earth, f0, (0, 0, 0.18))
-    key_rot(earth, f1, (0, 0, 0.22))
+    key_rot(earth, f0, (0, 0, 0.20))
+    key_rot(earth, f1, (0, 0, 0.24))
+    key_strength(shell_mat, f0, 2.4)
+    key_strength(shell_mat, f1, 2.8)
 
 
 # ----------------------------------------------------------------------------- cameras

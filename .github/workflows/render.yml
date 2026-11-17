@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       seconds_per_frame:
-        description: "Measured seconds per frame from the benchmark (raise it, never lower it)"
+        description: "Runner-only fallback: measured seconds per frame (raise it, never lower it)"
         required: true
         default: "9.0"
 
@@ -40,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       shards: ${{ steps.plan.outputs.shards }}
+      frames: ${{ steps.frames.outputs.total }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -47,6 +48,8 @@ jobs:
           name: voice
       - name: Shot list from the measured narration
         run: python3 scripts/build_shotlist.py --manifest src/manifest.json --plan shotplan.json --out shotlist.json
+      - id: frames
+        run: echo "total=$(python3 -c "import json;print(json.load(open('shotlist.json'))['totalFrames'])")" >> "$GITHUB_OUTPUT"
       - id: plan
         run: echo "shards=$(python3 scripts/plan_shards.py --seconds-per-frame ${{ inputs.seconds_per_frame }} --json)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
@@ -55,6 +58,19 @@ jobs:
           path: |
             shotlist.json
             shards.json
+
+  detect:
+    needs: plan
+    runs-on: ubuntu-latest
+    outputs:
+      lightning: ${{ steps.key.outputs.lightning }}
+    steps:
+      - id: key
+        env:
+          KEY: ${{ secrets.LIGHTNING_AI_API_KEY }}
+        run: |
+          if [ -n "$KEY" ]; then echo "lightning=yes" >> "$GITHUB_OUTPUT"
+          else echo "lightning=no" >> "$GITHUB_OUTPUT"; fi
 
   stills:
     needs: plan
@@ -87,13 +103,46 @@ jobs:
           path: public/stills/frame_*.png
           if-no-files-found: warn
 
+  # The film renders on a Lightning AI Studio: one machine, the whole frame range, the same world file.
+  render-lightning:
+    needs: [plan, detect]
+    if: needs.detect.outputs.lightning == 'yes'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: plan
+      - run: pip install -q lightning-sdk
+      - name: Render on Lightning AI
+        env:
+          LIGHTNING_API_KEY: ${{ secrets.LIGHTNING_AI_API_KEY }}
+          LIGHTNING_USERNAME: ${{ secrets.LIGHTNING_USERNAME }}
+          LIGHTNING_TEAMSPACE: ${{ secrets.LIGHTNING_TEAMSPACE }}
+          LIGHTNING_ORG: ${{ secrets.LIGHTNING_ORG }}
+        run: |
+          python3 scripts/render_on_lightning.py --shotlist shotlist.json \
+            --start 0 --end $(( ${{ needs.plan.outputs.frames }} - 1 ))
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frames-lightning
+          path: public/out/frame_*.png
+          if-no-files-found: warn
+
+  # Fallback only, when no Lightning key is configured: Cycles on the runner, sharded.
   render:
-    needs: plan
+    needs: [plan, detect]
+    if: needs.detect.outputs.lightning != 'yes'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         shard: ${{ fromJSON(needs.plan.outputs.shards) }}
-      max-parallel: 4
+      max-parallel: 3
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -113,7 +162,8 @@ jobs:
           if-no-files-found: warn
 
   assemble:
-    needs: [voice, render]
+    needs: [voice, plan, render, render-lightning]
+    if: ${{ !cancelled() && (needs.render.result == 'success' || needs.render-lightning.result == 'success') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
