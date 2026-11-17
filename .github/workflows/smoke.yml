@@ -1,0 +1,73 @@
+name: smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender ffmpeg
+          pip install -q imageio-ffmpeg
+          blender --version | head -2
+
+      - name: Piper and the Hindi voice
+        run: |
+          mkdir -p .piper && cd .piper
+          curl -fsSL -o piper.tar.gz https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz
+          tar -xzf piper.tar.gz
+          ID=hi_IN-pratham-medium
+          curl -fsSL -o $ID.onnx "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/$ID.onnx"
+          curl -fsSL -o $ID.onnx.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/hi/hi_IN/pratham/medium/$ID.onnx.json"
+
+      - name: Smoke narration
+        run: |
+          cat > narration.json <<'JSON'
+          {"fps": 30, "pad": 0.5, "minSeconds": 2.0, "lengthScale": 1.0,
+           "scenes": [{"id": "01-hook",
+                       "text": "ये एक टेस्ट है। पाइपलाइन काम कर रही है।",
+                       "caption": "Ye ek test hai"}]}
+          JSON
+          python scripts/hinglish_voice.py --script narration.json --out public/audio --piper .piper/piper/piper --voice .piper/hi_IN-pratham-medium.onnx
+
+      - name: Synthetic shot list
+        run: python3 scripts/make_smoke_shotlist.py
+
+      - name: Build the world
+        run: |
+          TOTAL=$(python3 -c "import json;print(json.load(open('src/manifest.json'))['totalFrames'])")
+          blender -b -P scenes/make_test_scene.py -- --out scenes/world.blend --frames $TOTAL
+
+      - name: Render
+        run: |
+          TOTAL=$(python3 -c "import json;print(json.load(open('src/manifest.json'))['totalFrames'])")
+          python3 scripts/render_shard.py --start 0 --end $((TOTAL-1)) --samples 8
+
+      - name: Assemble
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
+          npx tsc --noEmit
+          python3 scripts/stitch.py
+          python3 scripts/qa.py
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-video
+          path: |
+            out/video.mp4
+            qa.log
+          if-no-files-found: warn
