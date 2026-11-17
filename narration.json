@@ -1,0 +1,73 @@
+{
+  "fps": 30,
+  "pad": 0.45,
+  "minSeconds": 3.4,
+  "lengthScale": 1.0,
+  "scenes": [
+    {
+      "id": "01-hook",
+      "text": "आसमान का नीला रंग आसमान का है ही नहीं। ये रोशनी का खेल है।",
+      "caption": "Aasman ka neela rang aasman ka hai hi nahi"
+    },
+    {
+      "id": "02-white-light",
+      "text": "सूरज की सफेद रोशनी में सारे रंग छिपे हुए हैं।",
+      "caption": "Suraj ki safed roshni mein saare rang hain"
+    },
+    {
+      "id": "03-molecules",
+      "text": "हवा में नाइट्रोजन और ऑक्सीजन के अणु तैरते हैं। ये रोशनी की लहर से हज़ार गुना छोटे हैं।",
+      "caption": "Hawa mein nitrogen aur oxygen ke anu"
+    },
+    {
+      "id": "04-scatter",
+      "text": "रोशनी जब इन अणुओं से टकराती है, तो हर रंग अलग दिशा में बिखर जाता है।",
+      "caption": "Roshni anuon se takrati hai, rang bikharte hain"
+    },
+    {
+      "id": "05-number",
+      "text": "नीला रंग लाल रंग से लगभग फाइव पॉइंट नाइन गुना ज़्यादा बिखरता है।",
+      "caption": "Neela rang laal se 5.9 guna zyada bikharta hai"
+    },
+    {
+      "id": "06-violet",
+      "text": "वायलेट रंग और भी ज़्यादा बिखरता है, पर आँखें उसे कम देखती हैं।",
+      "caption": "Violet aur zyada bikharta hai, par aankh kam dekhti hai"
+    },
+    {
+      "id": "07-all-directions",
+      "text": "इसीलिए आसमान हर दिशा से नीली रोशनी भेजता है।",
+      "caption": "Aasman har disha se neeli roshni bhejta hai"
+    },
+    {
+      "id": "08-sunset-path",
+      "text": "शाम को रोशनी हवा में अड़तीस गुना लंबा रास्ता चलती है।",
+      "caption": "Shaam ko roshni 38 guna lamba raasta chalti hai"
+    },
+    {
+      "id": "09-sunset-red",
+      "text": "लंबे रास्ते में नीला रंग बिखर जाता है, और सिर्फ़ लाल बचता है।",
+      "caption": "Neela bikharta hai, sirf laal bachta hai"
+    },
+    {
+      "id": "10-space",
+      "text": "और अंतरिक्ष से देखिए, आसमान बिलकुल काला है।",
+      "caption": "Space se aasman bilkul kaala hai"
+    },
+    {
+      "id": "11-thin-layer",
+      "text": "क्योंकि वहाँ बिखेरने के लिए हवा ही नहीं है।",
+      "caption": "Wahan bikhne ke liye hawa hi nahi hai"
+    },
+    {
+      "id": "12-no-air",
+      "text": "नीचे बस एक पतली नीली परत दिखती है।",
+      "caption": "Neeche bas ek patli neeli parat"
+    },
+    {
+      "id": "13-recap",
+      "text": "तो नीला रंग हवा में बनता है। आसमान नीला है, क्योंकि हवा नीले रंग को सबसे ज़्यादा बिखेरती है।",
+      "caption": "Hawa neele rang ko sabse zyada bikherti hai"
+    }
+  ]
+}
