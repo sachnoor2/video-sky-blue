@@ -1,0 +1,20 @@
+{
+  "title": "Aasman Neela Kyun Hai?",
+  "genre": "explainer",
+  "language": "hinglish",
+  "orientation": "vertical",
+  "width": 720,
+  "height": 1280,
+  "fps": 30,
+  "targetSeconds": 45,
+  "voice": "piper:hi_IN-pratham-medium",
+  "style": "zack-d-films",
+  "topic": "Rayleigh scattering: why the daytime sky is blue, why sunsets are red, and why space is black",
+  "payload": {
+    "mechanism": "air molecules are ~1000x smaller than a light wave, so they scatter short wavelengths far harder (I ~ 1/lambda^4)",
+    "number": "blue at 450 nm scatters about 5.9x more than red at 700 nm; at sunset the beam crosses about 38x more air",
+    "consequence": "the sky is blue from every direction, sunsets are red, and above the air the sky is black"
+  },
+  "retellTest": "Neela rang laal se paanch point nau guna zyada bikharta hai, isliye aasman neela hai aur sunset laal.",
+  "notes": "Decisions live here so later turns do not re-derive them."
+}
