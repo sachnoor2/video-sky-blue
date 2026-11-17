@@ -1,0 +1,87 @@
+{
+  "fps": 30,
+  "pad": 0.45,
+  "engine": "placeholder-estimate",
+  "voice": "hi_IN-pratham-medium",
+  "totalFrames": 1967,
+  "scenes": [
+    {
+      "id": "01-hook",
+      "seconds": 5.356,
+      "frames": 174,
+      "caption": "Aasman ka neela rang aasman ka hai hi nahi"
+    },
+    {
+      "id": "02-white-light",
+      "seconds": 3.646,
+      "frames": 123,
+      "caption": "Suraj ki safed roshni mein saare rang hain"
+    },
+    {
+      "id": "03-molecules",
+      "seconds": 6.646,
+      "frames": 213,
+      "caption": "Hawa mein nitrogen aur oxygen ke anu"
+    },
+    {
+      "id": "04-scatter",
+      "seconds": 5.581,
+      "frames": 181,
+      "caption": "Roshni anuon se takrati hai, rang bikharte hain"
+    },
+    {
+      "id": "05-number",
+      "seconds": 4.614,
+      "frames": 152,
+      "caption": "Neela rang laal se 5.9 guna zyada bikharta hai"
+    },
+    {
+      "id": "06-violet",
+      "seconds": 4.614,
+      "frames": 152,
+      "caption": "Violet aur zyada bikharta hai, par aankh kam dekhti hai"
+    },
+    {
+      "id": "07-all-directions",
+      "seconds": 3.4,
+      "frames": 116,
+      "caption": "Aasman har disha se neeli roshni bhejta hai"
+    },
+    {
+      "id": "08-sunset-path",
+      "seconds": 3.968,
+      "frames": 133,
+      "caption": "Shaam ko roshni 38 guna lamba raasta chalti hai"
+    },
+    {
+      "id": "09-sunset-red",
+      "seconds": 4.614,
+      "frames": 152,
+      "caption": "Neela bikharta hai, sirf laal bachta hai"
+    },
+    {
+      "id": "10-space",
+      "seconds": 3.4,
+      "frames": 116,
+      "caption": "Space se aasman bilkul kaala hai"
+    },
+    {
+      "id": "11-thin-layer",
+      "seconds": 3.4,
+      "frames": 116,
+      "caption": "Wahan bikhne ke liye hawa hi nahi hai"
+    },
+    {
+      "id": "12-no-air",
+      "seconds": 3.4,
+      "frames": 116,
+      "caption": "Neeche bas ek patli neeli parat"
+    },
+    {
+      "id": "13-recap",
+      "seconds": 6.969,
+      "frames": 223,
+      "caption": "Hawa neele rang ko sabse zyada bikherti hai"
+    }
+  ]
+}
