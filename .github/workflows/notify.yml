@@ -1,0 +1,60 @@
+name: notify
+
+# The fast path. Fires on the completion of any render - success, failure or cancelled - and wakes the
+# agent. The six-hour timer is the guarantee behind it; whichever wakes first delivers, and the other
+# stands down. Never let this workflow depend on a job inside the render succeeding.
+
+on:
+  workflow_run:
+    workflows: [render, smoke]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Record the outcome
+        run: |
+          printf '{"run_id":"%s","workflow":"%s","conclusion":"%s","run_url":"%s","finished_at":"%s"}\n' \
+            "${{ github.event.workflow_run.id }}" \
+            "${{ github.event.workflow_run.name }}" \
+            "${{ github.event.workflow_run.conclusion }}" \
+            "${{ github.event.workflow_run.html_url }}" \
+            "${{ github.event.workflow_run.updated_at }}" > STATUS.json
+          cat STATUS.json
+
+      - name: Commit it
+        run: |
+          git config user.name "notify-bot"
+          git config user.email "notify@users.noreply.github.com"
+          git add STATUS.json
+          git commit -m "status: ${{ github.event.workflow_run.conclusion }} run ${{ github.event.workflow_run.id }}" || echo "nothing changed"
+          git push || echo "push failed - the webhook step still runs"
+
+      - name: Wake the agent
+        env:
+          WEBHOOK_URL: ${{ secrets.AGENT_WEBHOOK_URL }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "no webhook configured - the six-hour timer is the only wake"
+            exit 0
+          fi
+          for i in 1 2 3 4 5; do
+            code=$(curl -sS --max-time 20 -o /dev/null -w "%{http_code}" \
+              -X POST "$WEBHOOK_URL" -H "Content-Type: application/json" \
+              -d "$(cat STATUS.json)" || echo "000")
+            case "$code" in
+              2*) echo "delivered on attempt $i (HTTP $code)"; exit 0 ;;
+              *)  echo "attempt $i failed (HTTP $code)"; sleep $((i * 10)) ;;
+            esac
+          done
+          echo "webhook unreachable after 5 attempts - the six-hour timer will cover this run"
+          exit 0
