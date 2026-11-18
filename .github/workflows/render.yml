@@ -7,6 +7,10 @@ on:
         description: "Runner-only fallback: measured seconds per frame (raise it, never lower it)"
         required: true
         default: "9.0"
+      preview_only:
+        description: "Render one still per shot and stop - the preview gate before the full render"
+        required: false
+        default: "false"
 
 jobs:
   voice:
@@ -106,7 +110,7 @@ jobs:
   # The film renders on a Lightning AI Studio: one machine, the whole frame range, the same world file.
   render-lightning:
     needs: [plan, detect]
-    if: needs.detect.outputs.lightning == 'yes'
+    if: needs.detect.outputs.lightning == 'yes' && inputs.preview_only != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 350
     steps:
@@ -137,7 +141,7 @@ jobs:
   # Fallback only, when no Lightning key is configured: Cycles on the runner, sharded.
   render:
     needs: [plan, detect]
-    if: needs.detect.outputs.lightning != 'yes'
+    if: needs.detect.outputs.lightning != 'yes' && inputs.preview_only != 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -30,30 +30,29 @@ ORBIT = -100.0
 # rot is degrees (x, y, z). rx 90 looks level along +Y; rx < 90 looks down, rx > 90 looks up.
 # rz > 0 swings the view toward -X, rz < 0 toward +X.
 CAMS = {
-    # --- set-tower: tower at y = 12, faces at (0, 10.75, 3.2) and (0, 10.75, 6.4)
-    # every end point below is the next shot's start point: the camera never resets.
-    "01-hook":  ("cam-pov",    30, (0.0, -6.0, 1.55), (100, 0, 0), (0.0, -5.8, 1.62), (112, 0, 0)),
-    "02-proof": ("cam-action", 30, (0.0, -5.8, 1.62), (112, 0, 0), (0.0, -5.2, 1.90), (104, 0, 0)),
-    "03-base":  ("cam-action", 30, (0.0, -5.2, 1.90), (104, 0, 0), (0.0, -4.6, 2.60), (96, 0, 0)),
-    "04-roof":  ("cam-rise",   30, (0.0, -4.6, 2.60), (96, 0, 0),  (0.0, -4.0, 3.80), (92, 0, 0)),
-    "05-why":   ("cam-rise",   30, (0.0, -4.0, 3.80), (92, 0, 0),  (0.0, -3.4, 5.00), (90, 0, 0)),
-    "06-rate":  ("cam-face",   40, (0.0, -3.4, 5.00), (90, 0, 0),  (0.0, -2.8, 5.60), (90, 0, 0)),
-    "07-life":  ("cam-face",   40, (0.0, -2.8, 5.60), (90, 0, 0),  (0.0, -2.4, 6.20), (90, 0, 0)),
-    # --- set-lab: atoms at (100, 3.0, 1.60) and (100, 3.0, 2.15)
-    "08-mm":    ("cam-macro",  55, (100.15, 0.70, 1.90), (90, 0, 0), (100.10, 1.00, 1.90), (90, 0, 0)),
-    "09-clock": ("cam-macro",  55, (100.10, 1.00, 1.90), (90, 0, 0), (100.05, 1.20, 1.90), (90, 0, 0)),
-    # --- set-orbit: Earth centre (-100, 12, -14) r 6, dish at (-100, -1.5, -20)
-    "10-gps":   ("cam-wide",   28, (-100.0, -20.0, 8.0), (78, 0, 0), (-100.0, -16.0, 7.0), (80, 0, 0)),
-    "11-sat":   ("cam-wide",   28, (-100.0, -16.0, 7.0), (80, 0, 0), (-100.0, -13.0, 6.0), (82, 0, 0)),
-    "12-farq":  ("cam-action", 35, (-100.0, -8.0, 3.0),  (84, 0, 0), (-100.0, -6.0, 3.2),  (84, 0, 0)),
-    "13-drift": ("cam-action", 35, (-100.0, -6.0, 3.2),  (84, 0, 0), (-100.0, -4.0, 3.4),  (86, 0, 0)),
-    "14-twist": ("cam-pov",    35, (-100.0, -3.0, 2.0),  (88, 0, 0), (-100.0, -2.5, 2.0),  (88, 0, 0)),
-    "15-pahad": ("cam-wide",   28, (-100.0, -3.0, 2.2),  (82, 0, 0), (-100.0, -12.0, 6.0), (78, 0, 0)),
-    # --- back to the tower, still moving
-    "16-recap": ("cam-wide",   28, (0.0, -26.0, 6.0), (82, 0, 0), (0.0, -34.0, 9.0), (80, 0, 0)),
-    "17-close": ("cam-action", 30, (0.0, -7.5, 1.6),  (88, 0, 0), (0.0, -6.8, 2.0),  (94, 0, 0)),
-    "18-end":   ("cam-rise",   35, (0.0, -6.8, 2.0),  (94, 0, 0), (0.0, -5.0, 5.6),  (92, 0, 0)),
+    # (camera, lens, loc0, target0, loc1, target1). The camera is aimed at a world point, never at
+    # hand-guessed Euler angles - that is what stopped every framing error. Every end point is the
+    # next shot's start point: the camera never resets.
+    "01-hook":  ("cam-pov",    30, (0.0, -6.0, 1.55), (0.0, 11.0, 2.60), (0.0, -5.8, 1.70), (0.0, 11.0, 3.20)),
+    "02-proof": ("cam-action", 30, (0.0, -5.8, 1.70), (0.0, 11.0, 3.20), (0.0, -5.2, 1.90), (0.0, 11.0, 3.60)),
+    "03-base":  ("cam-action", 30, (0.0, -5.2, 1.90), (0.0, 11.0, 3.60), (0.0, -4.6, 2.60), (0.0, 11.0, 4.40)),
+    "04-roof":  ("cam-rise",   30, (0.0, -4.6, 2.60), (0.0, 11.0, 4.40), (0.0, -4.0, 3.80), (0.0, 11.0, 5.20)),
+    "05-why":   ("cam-rise",   30, (0.0, -4.0, 3.80), (0.0, 11.0, 5.20), (0.0, -3.4, 5.00), (0.0, 11.0, 5.60)),
+    "06-rate":  ("cam-face",   40, (0.0, -3.4, 5.00), (0.0, 11.0, 5.60), (0.0, -2.8, 5.60), (0.0, 11.0, 5.80)),
+    "07-life":  ("cam-face",   40, (0.0, -2.8, 5.60), (0.0, 11.0, 5.80), (0.0, -2.4, 6.20), (0.0, 11.0, 6.40)),
+    "08-mm":    ("cam-macro",  50, (100.0, 0.20, 1.88), (100.0, 3.0, 1.88), (100.0, 0.60, 1.88), (100.0, 3.0, 1.88)),
+    "09-clock": ("cam-macro",  50, (100.0, 0.60, 1.88), (100.0, 3.0, 1.88), (100.0, 0.90, 1.88), (100.0, 3.0, 1.88)),
+    "10-gps":   ("cam-wide",   26, (-100.0, -16.0, 4.0), (-100.0, 10.0, -12.0), (-100.0, -12.0, 3.0), (-100.0, 10.5, -12.5)),
+    "11-sat":   ("cam-wide",   26, (-100.0, -12.0, 3.0), (-100.0, 10.5, -12.5), (-100.0, -9.0, 2.0), (-100.0, 11.0, -13.0)),
+    "12-farq":  ("cam-action", 32, (-100.0, -6.0, 1.0), (-100.0, 4.0, -18.0), (-100.0, -5.0, 0.8), (-100.0, 2.0, -19.0)),
+    "13-drift": ("cam-action", 32, (-100.0, -5.0, 0.8), (-100.0, 2.0, -19.0), (-100.0, -4.0, 0.6), (-100.0, 0.0, -19.6)),
+    "14-twist": ("cam-pov",    35, (-100.0, -2.6, 1.4), (-100.0, -1.0, -19.9), (-100.0, -2.4, 1.4), (-100.0, -1.5, -19.9)),
+    "15-pahad": ("cam-wide",   26, (-100.0, -4.0, 2.0), (-100.0, 8.0, -16.0), (-100.0, -12.0, 5.0), (-100.0, 9.0, -14.0)),
+    "16-recap": ("cam-wide",   26, (0.0, -26.0, 6.0), (0.0, 12.0, 4.5), (0.0, -34.0, 9.0), (0.0, 12.0, 4.5)),
+    "17-close": ("cam-action", 30, (0.0, -7.5, 1.6), (0.0, 11.0, 2.6), (0.0, -6.8, 2.0), (0.0, 11.0, 4.0)),
+    "18-end":   ("cam-rise",   35, (0.0, -6.8, 2.0), (0.0, 11.0, 4.0), (0.0, -5.0, 5.6), (0.0, 11.0, 6.4)),
 }
+
 
 # ----------------------------------------------------------------------------- materials
 def set_input(node, names, value):
@@ -413,13 +412,13 @@ def build_lab(shotlist):
     bpy.context.object.rotation_euler = (90 * D, 0, 0)
 
     atom_mat = emission_mat("lab-atom", (0.55, 0.78, 1.0), 1.1)
-    atom_lo = sphere("lab-atom-low", (x, 3.0, 1.60), 0.30, atom_mat, seg=32, ring=16)
-    atom_hi = sphere("lab-atom-high", (x, 3.0, 2.15), 0.30, atom_mat, seg=32, ring=16)
+    atom_lo = sphere("lab-atom-low", (x, 3.0, 1.60), 0.20, atom_mat, seg=32, ring=16)
+    atom_hi = sphere("lab-atom-high", (x, 3.0, 2.15), 0.20, atom_mat, seg=32, ring=16)
 
     gap_mat = emission_mat("lab-gap", (1.0, 0.35, 0.15), 1.2)
     cylinder("lab-gap", (x, 2.72, 1.875), 0.012, 0.55, gap_mat, verts=8)
     label_mat = emission_mat("lab-label", (1.0, 0.97, 0.92), 1.3)
-    label("lab-label-mm", "1 mm", (x, 2.60, 1.875), 0.16, label_mat, rot=(90 * D, 0, 0))
+    label("lab-label-mm", "1 mm", (x - 0.62, 3.0, 1.875), 0.09, label_mat, rot=(90 * D, 0, 0))
 
     beam_mat = emission_mat("lab-laser", (1.0, 0.45, 0.25), 1.0)
     cylinder("lab-laser", (x, 1.0, 2.6), 0.025, 5.0, beam_mat, rot=(90 * D, 0, 0), verts=8)
@@ -516,6 +515,13 @@ def build_orbit(shotlist):
     return {"earth": earth, "marker": marker}
 
 
+def aim(loc, target):
+    """Rotation that points a Blender camera from loc at target: no hand-guessed angles."""
+    from mathutils import Vector
+    direction = Vector(target) - Vector(loc)
+    return direction.to_track_quat("-Z", "Y").to_euler()
+
+
 # ----------------------------------------------------------------------------- cameras
 def build_cameras(shotlist):
     cams = {}
@@ -533,7 +539,7 @@ def build_cameras(shotlist):
         sys.exit(f"no camera move for: {', '.join(missing)}")
 
     for s in shotlist["shots"]:
-        name, lens, l0, r0, l1, r1 = CAMS[s["id"]]
+        name, lens, l0, t0, l1, t1 = CAMS[s["id"]]
         if name != s["camera"]:
             sys.exit(f"{s['id']}: shot list says {s['camera']}, camera move says {name}")
         cam = cams[name]
@@ -541,11 +547,11 @@ def build_cameras(shotlist):
         cam.data.lens = float(lens)
         cam.data.keyframe_insert("lens", frame=f0)
         key_loc(cam, f0, l0)
-        key_rot(cam, f0, (r0[0] * D, r0[1] * D, r0[2] * D))
+        key_rot(cam, f0, aim(l0, t0))
         cam.data.lens = float(lens)
         cam.data.keyframe_insert("lens", frame=f1)
         key_loc(cam, f1, l1)
-        key_rot(cam, f1, (r1[0] * D, r1[1] * D, r1[2] * D))
+        key_rot(cam, f1, aim(l1, t1))
 
     bpy.context.scene.camera = cams["cam-action"]
     return cams
