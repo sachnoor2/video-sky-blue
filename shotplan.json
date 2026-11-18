@@ -1,188 +1,203 @@
 {
-  "note": "The shot plan. build_shotlist.py turns this plus the measured manifest into shotlist.json with absolute frames. One shot per narration scene; ids must match narration.json exactly.",
+  "note": "One continuous camera move: base of the tower, up the wall, through the clock face, into the millimetre, out to orbit, back to the ground. cameraOut(N) equals cameraIn(N+1).",
   "shots": [
     {
       "id": "01-hook",
-      "camera": "cam-action",
-      "set": "set-sky",
-      "sim": "scatter-field",
-      "character": "person-lookout",
-      "stateIn": "person on the ground, head level, sky above",
-      "stateOut": "person's head tilted back, sky dome fills the top of frame",
-      "motion": [
-        "tilt up",
-        "molecule drift"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "02-white-light",
-      "camera": "cam-macro",
-      "set": "set-beam",
-      "sim": "beam-fan",
-      "character": "none",
-      "stateIn": "one white beam travelling down through dark air",
-      "stateOut": "beam split into five colour bands along its length",
-      "motion": [
-        "beam",
-        "band spread"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "03-molecules",
-      "camera": "cam-macro",
-      "set": "set-beam",
-      "sim": "scatter-field",
-      "character": "none",
-      "stateIn": "empty air in front of the beam",
-      "stateOut": "molecule spheres fill the beam path, far smaller than the wave",
-      "motion": [
-        "molecule drift",
-        "scale cue"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "04-scatter",
-      "camera": "cam-action",
-      "set": "set-beam",
-      "sim": "beam-fan",
-      "character": "none",
-      "stateIn": "beam strikes one molecule, no fan yet",
-      "stateOut": "blue fan opens wide, red fan stays narrow",
-      "motion": [
-        "fan open",
-        "molecule recoil"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "05-number",
-      "camera": "cam-macro",
-      "set": "set-beam",
-      "sim": "beam-fan",
-      "character": "none",
-      "stateIn": "two equal bars, blue and red",
-      "stateOut": "blue bar grown to 5.9 units against red at 1",
-      "motion": [
-        "bar growth",
-        "number settle"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "06-violet",
-      "camera": "cam-macro",
-      "set": "set-beam",
-      "sim": "beam-fan",
-      "character": "none",
-      "stateIn": "violet fan closed beside the blue one",
-      "stateOut": "violet fan widest of all, dimmed by the eye's response",
-      "motion": [
-        "violet fan",
-        "dim ramp"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "07-all-directions",
       "camera": "cam-pov",
-      "set": "set-sky",
-      "sim": "scatter-field",
-      "character": "person-lookout",
-      "stateIn": "eye looking at a flat pale sky",
-      "stateOut": "scattered blue arriving from every direction, sky saturated",
-      "motion": [
-        "molecule drift",
-        "sky saturate"
-      ],
-      "samples": 16
+      "set": "set-tower",
+      "sim": "pendulum",
+      "character": "person-base",
+      "cameraIn": "tilt-up@1.2",
+      "cameraOut": "tilt-up@1.2",
+      "stateIn": "eye level at the tower's base, clock hidden above frame",
+      "stateOut": "head tilted back, tower face entering frame"
     },
     {
-      "id": "08-sunset-path",
-      "camera": "cam-wide",
-      "set": "set-sky",
-      "sim": "wave",
-      "character": "person-lookout",
-      "stateIn": "sun high, short vertical path through air",
-      "stateOut": "sun at the horizon, path stretched 38x across the frame",
-      "motion": [
-        "sun drop",
-        "path stretch",
-        "horizon shimmer"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "09-sunset-red",
-      "camera": "cam-macro",
-      "set": "set-sky",
-      "sim": "wave",
+      "id": "02-proof",
+      "camera": "cam-action",
+      "set": "set-tower",
+      "sim": "pendulum",
       "character": "none",
-      "stateIn": "sun disc white-yellow at the horizon",
-      "stateOut": "sun disc deep orange-red, blue gone from the beam",
-      "motion": [
-        "colour ramp",
-        "shimmer"
-      ],
-      "samples": 16
+      "cameraIn": "tilt-up@1.2",
+      "cameraOut": "tilt-up@1.2",
+      "stateIn": "tower wall filling frame",
+      "stateOut": "pendulum swinging into view, still rising"
     },
     {
-      "id": "10-space",
+      "id": "03-base",
+      "camera": "cam-action",
+      "set": "set-tower",
+      "sim": "pendulum",
+      "character": "person-base",
+      "cameraIn": "tilt-up@1.0",
+      "cameraOut": "rise@1.0",
+      "stateIn": "person at the base, clock low in frame",
+      "stateOut": "camera climbing past the person"
+    },
+    {
+      "id": "04-roof",
+      "camera": "cam-rise",
+      "set": "set-tower",
+      "sim": "hands",
+      "character": "person-roof",
+      "cameraIn": "rise@1.0",
+      "cameraOut": "rise@1.0",
+      "stateIn": "mid-wall, both clocks in frame",
+      "stateOut": "roof clock hands turning, higher still"
+    },
+    {
+      "id": "05-why",
+      "camera": "cam-rise",
+      "set": "set-tower",
+      "sim": "hands",
+      "character": "none",
+      "cameraIn": "rise@0.8",
+      "cameraOut": "push-in@0.8",
+      "stateIn": "two clock faces, two heights",
+      "stateOut": "faces converging on frame centre"
+    },
+    {
+      "id": "06-rate",
+      "camera": "cam-face",
+      "set": "set-tower",
+      "sim": "hands",
+      "character": "none",
+      "cameraIn": "push-in@0.8",
+      "cameraOut": "push-in@0.8",
+      "stateIn": "lower clock fills half the frame",
+      "stateOut": "the two hands visibly out of step"
+    },
+    {
+      "id": "07-life",
+      "camera": "cam-face",
+      "set": "set-tower",
+      "sim": "hands",
+      "character": "person-roof",
+      "cameraIn": "push-in@0.6",
+      "cameraOut": "dive@0.6",
+      "stateIn": "person on the roof beside the upper clock",
+      "stateOut": "camera entering the gap between the faces"
+    },
+    {
+      "id": "08-mm",
+      "camera": "cam-macro",
+      "set": "set-lab",
+      "sim": "scale-dive",
+      "character": "none",
+      "cameraIn": "dive@0.6",
+      "cameraOut": "drift-left@0.5",
+      "stateIn": "two glowing atoms a hair apart",
+      "stateOut": "the gap between them fills frame, 1 mm marked"
+    },
+    {
+      "id": "09-clock",
+      "camera": "cam-macro",
+      "set": "set-lab",
+      "sim": "clock-tick",
+      "character": "none",
+      "cameraIn": "drift-left@0.5",
+      "cameraOut": "drift-left@0.5",
+      "stateIn": "lower atom ticking, upper atom ticking faster",
+      "stateOut": "the two tick counts visibly diverge"
+    },
+    {
+      "id": "10-gps",
       "camera": "cam-wide",
       "set": "set-orbit",
       "sim": "orbit",
-      "character": "astronaut",
-      "stateIn": "astronaut above the limb, sky black",
-      "stateOut": "Earth rotated, astronaut drifts across frame, no blue anywhere but the limb",
-      "motion": [
-        "earth rotate",
-        "astronaut drift"
-      ],
-      "samples": 16
+      "character": "none",
+      "cameraIn": "pull-out@0.9",
+      "cameraOut": "pull-out@0.9",
+      "stateIn": "black sky, one satellite crossing",
+      "stateOut": "Earth's limb, four satellites in view"
     },
     {
-      "id": "11-thin-layer",
-      "camera": "cam-action",
+      "id": "11-sat",
+      "camera": "cam-wide",
       "set": "set-orbit",
       "sim": "orbit",
-      "character": "astronaut",
-      "stateIn": "astronaut turns toward the planet",
-      "stateOut": "thin blue shell visible along the limb, astronaut framed against it",
-      "motion": [
-        "astronaut turn",
-        "shell pulse"
-      ],
-      "samples": 16
-    },
-    {
-      "id": "12-no-air",
-      "camera": "cam-macro",
-      "set": "set-orbit",
-      "sim": "wave",
       "character": "none",
-      "stateIn": "limb edge sharp, shell a hard line",
-      "stateOut": "shell line thin and glowing, black sky above it",
-      "motion": [
-        "shell pulse",
-        "limb drift"
-      ],
-      "samples": 16
+      "cameraIn": "orbit-drift@0.7",
+      "cameraOut": "orbit-drift@0.7",
+      "stateIn": "satellites high above the planet",
+      "stateOut": "constellation settled into its ring"
     },
     {
-      "id": "13-recap",
+      "id": "12-farq",
       "camera": "cam-action",
-      "set": "set-sky",
-      "sim": "scatter-field",
-      "character": "person-lookout",
-      "stateIn": "person standing, sky blue overhead",
-      "stateOut": "person looks up, blue sky held",
-      "motion": [
-        "tilt up",
-        "molecule drift"
-      ],
-      "samples": 16
+      "set": "set-orbit",
+      "sim": "signal",
+      "character": "none",
+      "cameraIn": "orbit-drift@0.7",
+      "cameraOut": "orbit-drift@0.7",
+      "stateIn": "one satellite, no signal drawn",
+      "stateOut": "signal lines running down to the receiver"
+    },
+    {
+      "id": "13-drift",
+      "camera": "cam-action",
+      "set": "set-orbit",
+      "sim": "drift",
+      "character": "none",
+      "cameraIn": "orbit-drift@0.7",
+      "cameraOut": "push-in@0.6",
+      "stateIn": "receiver on the ground, fix correct",
+      "stateOut": "the fix drifting off the road, 10 km marked"
+    },
+    {
+      "id": "14-twist",
+      "camera": "cam-pov",
+      "set": "set-orbit",
+      "sim": "drift",
+      "character": "person-ground",
+      "cameraIn": "push-in@0.6",
+      "cameraOut": "hold@0.0",
+      "stateIn": "a person standing on the drifting line",
+      "stateOut": "hard stop - they are not where the map says"
+    },
+    {
+      "id": "15-pahad",
+      "camera": "cam-wide",
+      "set": "set-orbit",
+      "sim": "drift",
+      "character": "person-ground",
+      "cameraIn": "hold@0.0",
+      "cameraOut": "pull-back@0.8",
+      "stateIn": "person small against the curve of the planet",
+      "stateOut": "camera pulling back, ground receding"
+    },
+    {
+      "id": "16-recap",
+      "camera": "cam-wide",
+      "set": "set-tower",
+      "sim": "none",
+      "character": "person-base",
+      "cameraIn": "pull-back@0.8",
+      "cameraOut": "pull-back@0.8",
+      "stateIn": "the tower whole, both clocks visible",
+      "stateOut": "tower small, sky above it"
+    },
+    {
+      "id": "17-close",
+      "camera": "cam-action",
+      "set": "set-tower",
+      "sim": "hands",
+      "character": "person-base",
+      "cameraIn": "pull-back@0.6",
+      "cameraOut": "rise@0.4",
+      "stateIn": "person at the base looking up",
+      "stateOut": "camera rising again, hands still turning"
+    },
+    {
+      "id": "18-end",
+      "camera": "cam-rise",
+      "set": "set-tower",
+      "sim": "hands",
+      "character": "person-roof",
+      "cameraIn": "rise@0.4",
+      "cameraOut": "hold@0.0",
+      "stateIn": "upper clock, hands at rest",
+      "stateOut": "hold on the face, one line of narration"
     }
   ]
 }

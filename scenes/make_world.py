@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Build the one world file for "Aasman Neela Kyun Hai?" - every shot renders from it.
+"""Build the one world file for "Time Aapke Pairon Mein Dheere Chalta Hai".
 
     blender -b -P scenes/make_world.py -- --shotlist shotlist.json --out scenes/world.blend
 
 One file holds three sets, one light rig, one palette and the whole camera grammar:
 
-    set-sky    at the origin        ground, sky dome, sun disc, air molecules, a person
-    set-beam   at x = +200          a light shaft, one molecule, four scattering fans, two bars
-    set-orbit  at x = -200          the Earth, its thin blue shell, stars, an astronaut
+    set-tower  at the origin        a clock tower, two faces, a pendulum, two people
+    set-lab    at x = +100          two atoms a millimetre apart, a laser, a scale marker
+    set-orbit  at x = -100          the Earth, four GPS satellites, a dish, a drifting fix
 
 The shot list supplies absolute frame ranges; this script keys every camera, every colour change
 and every moving object on those exact frames, so the film's motion and its cut points agree.
@@ -23,31 +23,37 @@ import bpy
 
 D = math.pi / 180.0
 
-BEAM = 200.0
-ORBIT = -200.0
+LAB = 100.0
+ORBIT = -100.0
 
 # The camera grammar: one name, many uses. id -> (camera, lens, loc0, rot0, loc1, rot1)
 # rot is degrees (x, y, z). rx 90 looks level along +Y; rx < 90 looks down, rx > 90 looks up.
 # rz > 0 swings the view toward -X, rz < 0 toward +X.
 CAMS = {
-    # --- set-sky: person at (0, -9.5, 0), sun high at (0, 70, 62)
-    "01-hook":           ("cam-action", 30, (0.0, -13.0, 1.55), (92, 0, 0),   (0.0, -12.4, 1.62), (118, 0, 0)),
-    "07-all-directions": ("cam-pov",    24, (0.0, -13.0, 1.70), (106, 0, -7), (0.0, -13.0, 1.70), (109, 0, 7)),
-    "08-sunset-path":    ("cam-wide",   32, (0.0, -34.0, 7.0),  (88, 0, 0),   (0.0, -26.0, 5.5),  (90, 0, 0)),
-    "09-sunset-red":     ("cam-macro",  40, (0.0, -22.0, 2.0),  (89, 0, 0),   (0.0, -19.0, 1.9),  (89, 0, 0)),
-    "13-recap":          ("cam-action", 30, (0.0, -12.6, 1.50), (96, 0, 0),   (0.0, -12.2, 1.56), (116, 0, 0)),
-    # --- set-beam: shaft and molecule at (200, -4, z), bars at (199.3 / 200.7, -1)
-    "02-white-light":    ("cam-macro",  35, (200.2, -13.0, 3.2), (84, 0, 0),  (200.0, -11.5, 3.0), (85, 0, 0)),
-    "03-molecules":      ("cam-macro",  40, (200.3, -11.0, 2.6), (85, 0, 0),  (200.1, -9.8, 2.7),  (84, 0, 0)),
-    "04-scatter":        ("cam-action", 30, (200.4, -14.0, 4.0), (84, 0, 0),  (200.2, -12.2, 3.8), (85, 0, 0)),
-    "05-number":         ("cam-macro",  32, (200.0, -9.5, 1.20), (87, 0, 0),  (200.2, -8.6, 1.15), (87, 0, 0)),
-    "06-violet":         ("cam-macro",  35, (200.4, -11.0, 3.4), (85, 0, 0),  (200.2, -9.8, 3.2),  (86, 0, 0)),
-    # --- set-orbit: Earth centre (-200, 12, -12) r 6, astronaut at (-202, -2, 3)
-    "10-space":          ("cam-wide",   28, (-200.0, -14.0, 12.0), (46, 0, 0),  (-200.0, -10.0, 10.5), (47, 0, 0)),
-    "11-thin-layer":     ("cam-action", 35, (-201.0, -6.0, 6.0),   (60, 0, -6), (-201.0, -4.0, 5.4),   (62, 0, -5)),
-    "12-no-air":         ("cam-macro",  50, (-196.0, 0.0, -2.0),   (52, 0, 18), (-195.0, -2.0, -1.4),  (53, 0, 17)),
+    # --- set-tower: tower at y = 12, faces at (0, 10.75, 3.2) and (0, 10.75, 6.4)
+    # every end point below is the next shot's start point: the camera never resets.
+    "01-hook":  ("cam-pov",    30, (0.0, -6.0, 1.55), (100, 0, 0), (0.0, -5.8, 1.62), (112, 0, 0)),
+    "02-proof": ("cam-action", 30, (0.0, -5.8, 1.62), (112, 0, 0), (0.0, -5.2, 1.90), (104, 0, 0)),
+    "03-base":  ("cam-action", 30, (0.0, -5.2, 1.90), (104, 0, 0), (0.0, -4.6, 2.60), (96, 0, 0)),
+    "04-roof":  ("cam-rise",   30, (0.0, -4.6, 2.60), (96, 0, 0),  (0.0, -4.0, 3.80), (92, 0, 0)),
+    "05-why":   ("cam-rise",   30, (0.0, -4.0, 3.80), (92, 0, 0),  (0.0, -3.4, 5.00), (90, 0, 0)),
+    "06-rate":  ("cam-face",   40, (0.0, -3.4, 5.00), (90, 0, 0),  (0.0, -2.8, 5.60), (90, 0, 0)),
+    "07-life":  ("cam-face",   40, (0.0, -2.8, 5.60), (90, 0, 0),  (0.0, -2.4, 6.20), (90, 0, 0)),
+    # --- set-lab: atoms at (100, 3.0, 1.60) and (100, 3.0, 2.15)
+    "08-mm":    ("cam-macro",  55, (100.15, 0.70, 1.90), (90, 0, 0), (100.10, 1.00, 1.90), (90, 0, 0)),
+    "09-clock": ("cam-macro",  55, (100.10, 1.00, 1.90), (90, 0, 0), (100.05, 1.20, 1.90), (90, 0, 0)),
+    # --- set-orbit: Earth centre (-100, 12, -14) r 6, dish at (-100, -1.5, -20)
+    "10-gps":   ("cam-wide",   28, (-100.0, -20.0, 8.0), (78, 0, 0), (-100.0, -16.0, 7.0), (80, 0, 0)),
+    "11-sat":   ("cam-wide",   28, (-100.0, -16.0, 7.0), (80, 0, 0), (-100.0, -13.0, 6.0), (82, 0, 0)),
+    "12-farq":  ("cam-action", 35, (-100.0, -8.0, 3.0),  (84, 0, 0), (-100.0, -6.0, 3.2),  (84, 0, 0)),
+    "13-drift": ("cam-action", 35, (-100.0, -6.0, 3.2),  (84, 0, 0), (-100.0, -4.0, 3.4),  (86, 0, 0)),
+    "14-twist": ("cam-pov",    35, (-100.0, -3.0, 2.0),  (88, 0, 0), (-100.0, -2.5, 2.0),  (88, 0, 0)),
+    "15-pahad": ("cam-wide",   28, (-100.0, -3.0, 2.2),  (82, 0, 0), (-100.0, -12.0, 6.0), (78, 0, 0)),
+    # --- back to the tower, still moving
+    "16-recap": ("cam-wide",   28, (0.0, -26.0, 6.0), (82, 0, 0), (0.0, -34.0, 9.0), (80, 0, 0)),
+    "17-close": ("cam-action", 30, (0.0, -7.5, 1.6),  (88, 0, 0), (0.0, -6.8, 2.0),  (94, 0, 0)),
+    "18-end":   ("cam-rise",   35, (0.0, -6.8, 2.0),  (94, 0, 0), (0.0, -5.0, 5.6),  (92, 0, 0)),
 }
-
 
 # ----------------------------------------------------------------------------- materials
 def set_input(node, names, value):
@@ -318,7 +324,7 @@ def shot_window(shotlist, sid):
 def make_figure(prefix, base, suit, skin):
     """A stylised humanoid out of primitives: reads as a person at any distance, no rig needed."""
     x, y, z = base
-    parts = [
+    return [
         cylinder(f"{prefix}-torso", (x, y, z + 0.92), 0.20, 0.72, suit, verts=16),
         sphere(f"{prefix}-head", (x, y, z + 1.44), 0.145, skin),
         cylinder(f"{prefix}-leg-l", (x - 0.10, y, z + 0.32), 0.075, 0.66, suit, verts=12),
@@ -326,242 +332,199 @@ def make_figure(prefix, base, suit, skin):
         cylinder(f"{prefix}-arm-l", (x - 0.27, y, z + 0.95), 0.055, 0.60, suit, verts=12),
         cylinder(f"{prefix}-arm-r", (x + 0.27, y, z + 0.95), 0.055, 0.60, suit, verts=12),
     ]
-    return parts
 
 
-def build_sky(shotlist):
-    ground_mat = surface_mat("sky-ground", (0.020, 0.026, 0.034), rough=0.95)
-    plane("sky-ground", (0, 0, -0.02), 600, ground_mat)
-
-    # two domes at almost the same radius: the daytime sky, and the sunset sky underneath it.
-    # Only one is opaque at a time, cross-faded on the Mix Shader's Fac - a cut-safe colour change.
-    day = sky_mat("sky-dome-day", top=(0.075, 0.235, 0.62), horizon=(0.72, 0.85, 0.96),
-                  strength=0.85, blend=1.0)
-    sphere("sky-dome-day", (0, 0, 0), 120.0, day, seg=64, ring=32)
-    dusk = sky_mat("sky-dome-dusk", top=(0.26, 0.09, 0.24), horizon=(1.00, 0.50, 0.18),
-                   strength=0.85, blend=0.0)
-    sphere("sky-dome-dusk", (0, 0, 0), 119.2, dusk, seg=64, ring=32)
-
-    sun_mat = emission_mat("sky-sun", (1.0, 0.95, 0.82), 2.4)
-    sun = sphere("sky-sun", (0, 70, 62), 4.0, sun_mat, seg=24, ring=12)
-
-    mol_mat = emission_mat("sky-molecule", (0.55, 0.78, 1.0), 0.95)
-    molecules, bases = [], []
-    n = 0
-    for i in range(5):
-        for j in range(4):
-            for k in range(2):
-                loc = (-18.0 + i * 9.0, -14.0 + j * 9.0, 5.0 + k * 11.0 + (i % 3) * 1.4)
-                molecules.append(sphere(f"sky-mol-{n}", loc, 0.085, mol_mat, seg=10, ring=6))
-                bases.append(loc)
-                n += 1
-
-    person_mat = surface_mat("sky-person", (0.05, 0.06, 0.08), rough=0.8)
-    skin_mat = surface_mat("sky-skin", (0.09, 0.07, 0.06), rough=0.7)
-    make_figure("sky-person", (0.0, -9.5, 0.0), person_mat, skin_mat)
-
-    # --- motion, keyed inside each shot's own window
-    f0, f1 = shot_window(shotlist, "01-hook")
-    for i, m in enumerate(molecules):
-        bob(m, bases[i], f0, f1, amp=0.5, phase=i * 0.37)
-
-    f0, f1 = shot_window(shotlist, "07-all-directions")
-    for i, m in enumerate(molecules):
-        bob(m, bases[i], f0, f1, amp=0.5, phase=i * 0.37)
-    key_strength(day, f0, 0.80)
-    key_strength(day, f1, 1.15)          # the sky saturates as the scattered light arrives
-
-    # sunset: the sun drops, the long path eats the blue, the dusk dome takes over
-    f0, f1 = shot_window(shotlist, "08-sunset-path")
-    key_loc(sun, f0, (0, 70, 62))
-    key_loc(sun, f1, (0, 70, 3.0))
-    key_fac(dusk, f0, 0.0)
-    key_fac(dusk, f1, 1.0)
-    key_color(sun_mat, f0, (1.0, 0.95, 0.82))
-    key_color(sun_mat, f1, (1.0, 0.60, 0.26))
-    for i, m in enumerate(molecules):
-        bob(m, bases[i], f0, f1, amp=0.25, phase=i * 0.21)
-
-    f0, f1 = shot_window(shotlist, "09-sunset-red")
-    key_loc(sun, f0, (0, 70, 3.0))
-    key_loc(sun, f1, (0, 70, 2.2))
-    key_fac(dusk, f0, 1.0)
-    key_fac(dusk, f1, 1.0)
-    key_color(sun_mat, f0, (1.0, 0.60, 0.26))
-    key_color(sun_mat, f1, (1.0, 0.26, 0.09))
-    key_strength(sun_mat, f0, 2.2)
-    key_strength(sun_mat, f1, 1.4)
-
-    f0, f1 = shot_window(shotlist, "13-recap")
-    key_fac(dusk, f0, 0.0)
-    key_fac(dusk, f1, 0.0)
-    key_strength(day, f0, 0.90)
-    key_strength(day, f1, 1.00)
-    for i, m in enumerate(molecules):
-        bob(m, bases[i], f0, f1, amp=0.4, phase=i * 0.37)
+def pivot_at_top(ob, depth):
+    from mathutils import Matrix
+    ob.data.transform(Matrix.Translation((0.0, 0.0, -depth / 2.0)))
 
 
-def build_beam(shotlist):
-    x = BEAM
-    floor = surface_mat("beam-floor", (0.014, 0.016, 0.022), rough=0.9)
-    plane("beam-floor", (x, 0, -0.02), 80, floor)
+def hand(name, centre, length, mat, tilt=0.0):
+    """A clock hand lying in the face plane, its origin at the pivot."""
+    from mathutils import Matrix
+    ob = cube(name, centre, 1.0, mat)
+    ob.data.transform(Matrix.Translation((0.0, 0.0, 0.5)))
+    ob.scale = (0.05, 0.03, length)
+    ob.rotation_euler = (0.0, tilt, 0.0)
+    return ob
 
-    beam_mat = emission_mat("beam-shaft", (1.0, 0.97, 0.92), 1.0)
-    cylinder("beam-shaft", (x, -4.0, 15.0), 0.18, 30.0, beam_mat, verts=24)
 
-    mol_mat = emission_mat("beam-molecule", (0.88, 0.94, 1.0), 1.2)
-    sphere("beam-molecule", (x, -4.0, 5.0), 0.55, mol_mat, seg=24, ring=12)
+def build_tower(shotlist):
+    stone = surface_mat("tower-stone", (0.10, 0.10, 0.11), rough=0.85)
+    dark = surface_mat("tower-dark", (0.03, 0.032, 0.038), rough=0.6)
+    ground = surface_mat("tower-ground", (0.05, 0.052, 0.058), rough=0.9)
+    plane("tower-ground", (0, 0, -0.02), 400, ground)
 
-    # four scattering fans: the wider the cone, the harder that colour is thrown
-    spec = {
-        "violet": ((0.52, 0.30, 0.95), 2.2, -0.95),
-        "blue":   ((0.16, 0.42, 1.00), 1.8, -0.42),
-        "green":  ((0.22, 0.82, 0.42), 1.0,  0.26),
-        "red":    ((1.00, 0.20, 0.12), 0.35, 0.86),
-    }
-    fans = {}
-    for name, (col, width, tilt) in spec.items():
-        m = emission_mat(f"beam-fan-{name}", col, 0.9)
-        d = (math.sin(tilt), 0.0, math.cos(tilt))
-        depth = 5.0
-        ob = cone(f"beam-fan-{name}",
-                  (x + d[0] * depth * 0.5, -4.0, 5.0 + d[2] * depth * 0.5),
-                  0.10, width, depth, m, rot=(0, tilt, 0))
-        fans[name] = (ob, m, tilt, depth)
+    cylinder("tower-shaft", (0, 12.0, 3.5), 1.2, 7.0, stone, verts=32)
+    cylinder("tower-roof", (0, 12.0, 7.05), 1.5, 0.15, stone, verts=32)
 
-    # two bars for the number shot: blue 5.9 against red 1.0
-    bar_blue_mat = emission_mat("beam-bar-blue", (0.16, 0.42, 1.00), 1.2)
-    bar_red_mat = emission_mat("beam-bar-red", (1.00, 0.20, 0.12), 1.2)
-    bar_b = cube("beam-bar-blue", (x - 0.7, -1.0, 0.0), 0.30, bar_blue_mat, origin_at_base=True)
-    bar_r = cube("beam-bar-red", (x + 0.7, -1.0, 0.0), 0.30, bar_red_mat, origin_at_base=True)
+    face_mat = emission_mat("tower-face", (0.92, 0.88, 0.76), 0.55)
+    rim_mat = surface_mat("tower-rim", (0.02, 0.02, 0.03), rough=0.4, metal=0.6)
+    hand_mat = emission_mat("tower-hand", (1.0, 0.55, 0.15), 0.9)
 
-    num_mat = emission_mat("beam-number", (1.0, 0.97, 0.9), 1.6)
-    label("beam-number-59", "5.9x", (x - 0.7, -1.1, 2.15), 0.42, num_mat, rot=(90 * D, 0, 0))
-    label("beam-number-1", "1x", (x + 0.7, -1.1, 0.62), 0.30, num_mat, rot=(90 * D, 0, 0))
+    faces = {}
+    for name, z in (("low", 3.2), ("high", 6.4)):
+        cylinder(f"tower-face-{name}", (0, 10.72, z), 1.35, 0.12, face_mat,
+                 rot=(90 * D, 0, 0), verts=48)
+        cylinder(f"tower-rim-{name}", (0, 10.66, z), 1.45, 0.06, rim_mat,
+                 rot=(90 * D, 0, 0), verts=48)
+        faces[name] = (hand(f"tower-hand-{name}", (0, 10.62, z), 0.95, hand_mat),
+                       hand(f"tower-hand-{name}-h", (0, 10.60, z), 0.62, hand_mat, 1.9))
 
-    # 02: the white beam, no fans yet
-    f0, f1 = shot_window(shotlist, "02-white-light")
-    key_strength(beam_mat, f0, 0.8)
-    key_strength(beam_mat, f1, 1.1)
-    for name, (ob, m, tilt, depth) in fans.items():
-        key_scale(ob, f0, (1, 1, 0.001))
-        key_scale(ob, f1, (1, 1, 0.001))
-        key_strength(m, f0, 0.0)
-        key_strength(m, f1, 0.0)
-    for b in (bar_b, bar_r):
-        key_scale(b, f0, (1, 1, 0.001))
-        key_scale(b, f1, (1, 1, 0.001))
+    rod_mat = surface_mat("pendulum-rod", (0.35, 0.28, 0.12), rough=0.35, metal=0.8)
+    rod = cylinder("pendulum-rod", (0, 10.35, 3.9), 0.035, 1.5, rod_mat, verts=12)
+    pivot_at_top(rod, 1.5)
+    bob = sphere("pendulum-bob", (0, 10.35, 3.15), 0.22, rod_mat, seg=20, ring=12)
 
-    # 03: molecules appear in the beam path
-    f0, f1 = shot_window(shotlist, "03-molecules")
-    for i in range(9):
-        loc = (x - 0.5 + (i % 3) * 0.5, -4.4 + (i // 3) * 0.35, 2.0 + i * 1.5)
-        m = sphere(f"beam-mol-{i}", loc, 0.055, mol_mat, seg=10, ring=6)
-        key_scale(m, f0, (0.001, 0.001, 0.001))
-        key_scale(m, f0 + 12 + i * 2, (1, 1, 1))
-        key_scale(m, f1, (1, 1, 1))
-        bob(m, loc, f0, f1, amp=0.18, phase=i * 0.5)
+    person_mat = surface_mat("tower-person", (0.07, 0.08, 0.10), rough=0.8)
+    skin_mat = surface_mat("tower-skin", (0.11, 0.09, 0.08), rough=0.7)
+    make_figure("person-base", (0.9, 9.2, 0.0), person_mat, skin_mat)
+    make_figure("person-roof", (0.7, 11.4, 7.15), person_mat, skin_mat)
 
-    # 04: the fans open
-    f0, f1 = shot_window(shotlist, "04-scatter")
-    for name, (ob, m, tilt, depth) in fans.items():
-        key_scale(ob, f0, (1, 1, 0.02))
-        key_scale(ob, f0 + 10, (1, 1, 0.55))
-        key_scale(ob, f1, (1, 1, 1.0))
-        key_strength(m, f0, 0.0)
-        key_strength(m, f0 + 6, 0.9)
-        key_strength(m, f1, 1.0)
+    # --- the pendulum swings while the camera climbs the base
+    for sid, amp in (("01-hook", 0.32), ("02-proof", 0.30), ("03-base", 0.26)):
+        f0, f1 = shot_window(shotlist, sid)
+        f = f0
+        while f <= f1:
+            t = (f - f0) / 30.0
+            key_rot(rod, f, (0.0, amp * math.sin(t * 4.4), 0.0))
+            key_rot(bob, f, (0.0, amp * math.sin(t * 4.4), 0.0))
+            f += 4
 
-    # 05: the bars grow to 5.9 : 1
-    f0, f1 = shot_window(shotlist, "05-number")
-    key_scale(bar_b, f0, (1, 1, 0.001))
-    key_scale(bar_b, f1, (1, 1, 5.9 * 0.30))
-    key_scale(bar_r, f0, (1, 1, 0.001))
-    key_scale(bar_r, f1, (1, 1, 1.0 * 0.30))
-    key_strength(bar_blue_mat, f0, 0.3)
-    key_strength(bar_blue_mat, f1, 1.3)
-    key_strength(bar_red_mat, f0, 0.3)
-    key_strength(bar_red_mat, f1, 1.3)
+    # --- the two faces tick, and the upper one ticks faster
+    for sid, low_rate, high_rate in (("04-roof", 0.9, 1.15), ("05-why", 0.8, 1.2),
+                                     ("06-rate", 0.7, 1.3), ("07-life", 0.6, 1.4),
+                                     ("17-close", 0.9, 1.15), ("18-end", 0.6, 1.4)):
+        f0, f1 = shot_window(shotlist, sid)
+        for name, rate in (("low", low_rate), ("high", high_rate)):
+            minute, hour = faces[name]
+            key_rot(minute, f0, (0, 0.4, 0))
+            key_rot(minute, f1, (0, 0.4 + rate * 2.2, 0))
+            key_rot(hour, f0, (0, 1.9, 0))
+            key_rot(hour, f1, (0, 1.9 + rate * 0.18, 0))
+    return faces
 
-    # 06: violet is thrown hardest, then dimmed by the eye
-    f0, f1 = shot_window(shotlist, "06-violet")
-    ob, m, tilt, depth = fans["violet"]
-    key_scale(ob, f0, (1, 1, 0.55))
-    key_scale(ob, f1, (1, 1, 1.15))
-    key_strength(m, f0, 1.2)
-    key_strength(m, f1, 0.45)
-    for name in ("blue", "green", "red"):
-        ob2, m2, _t, _d = fans[name]
-        key_strength(m2, f0, 0.9)
-        key_strength(m2, f1, 0.35)
+
+def build_lab(shotlist):
+    x = LAB
+    bench = surface_mat("lab-bench", (0.03, 0.033, 0.04), rough=0.7)
+    plane("lab-floor", (x, 4, -0.02), 24, bench)
+    plane("lab-wall", (x, 9, 4), 24, bench)
+    bpy.context.object.rotation_euler = (90 * D, 0, 0)
+
+    atom_mat = emission_mat("lab-atom", (0.55, 0.78, 1.0), 1.1)
+    atom_lo = sphere("lab-atom-low", (x, 3.0, 1.60), 0.30, atom_mat, seg=32, ring=16)
+    atom_hi = sphere("lab-atom-high", (x, 3.0, 2.15), 0.30, atom_mat, seg=32, ring=16)
+
+    gap_mat = emission_mat("lab-gap", (1.0, 0.35, 0.15), 1.2)
+    cylinder("lab-gap", (x, 2.72, 1.875), 0.012, 0.55, gap_mat, verts=8)
+    label_mat = emission_mat("lab-label", (1.0, 0.97, 0.92), 1.3)
+    label("lab-label-mm", "1 mm", (x, 2.60, 1.875), 0.16, label_mat, rot=(90 * D, 0, 0))
+
+    beam_mat = emission_mat("lab-laser", (1.0, 0.45, 0.25), 1.0)
+    cylinder("lab-laser", (x, 1.0, 2.6), 0.025, 5.0, beam_mat, rot=(90 * D, 0, 0), verts=8)
+
+    f0, f1 = shot_window(shotlist, "08-mm")
+    key_scale(atom_lo, f0, (1, 1, 1))
+    key_scale(atom_lo, f1, (1.18, 1.18, 1.18))
+    key_strength(atom_mat, f0, 0.8)
+    key_strength(atom_mat, f1, 1.4)
+
+    f0, f1 = shot_window(shotlist, "09-clock")
+    for i, ob in enumerate((atom_lo, atom_hi)):
+        step = 6 if i == 0 else 4
+        f = f0
+        while f <= f1:
+            key_strength(atom_mat, f, 1.5)
+            f += step
+    key_strength(atom_mat, f1, 1.0)
+    return {"atoms": (atom_lo, atom_hi)}
 
 
 def build_orbit(shotlist):
     x = ORBIT
-    centre = (x, 12.0, -12.0)
-
+    centre = (x, 12.0, -14.0)
     earth = sphere("orbit-earth", centre, 6.0, earth_mat("orbit-earth-mat"), seg=64, ring=32)
-    shell = sphere("orbit-shell", centre, 6.12,
+    shell = sphere("orbit-shell", centre, 6.10,
                    limb_mat("orbit-shell-mat", (0.32, 0.58, 1.0), 1.6), seg=64, ring=32)
 
-    sun_mat = emission_mat("orbit-sun", (1.0, 0.98, 0.92), 3.0)
-    sphere("orbit-sun", (x - 40, 90, 40), 2.0, sun_mat, seg=16, ring=8)
+    ground = surface_mat("orbit-ground", (0.04, 0.045, 0.05), rough=0.9)
+    plane("orbit-ground", (x, -4, -20.2), 40, ground)
+    dish_mat = surface_mat("orbit-dish", (0.55, 0.56, 0.6), rough=0.3, metal=0.7)
+    cone("orbit-dish", (x, -1.5, -19.9), 0.7, 0.12, 0.45, dish_mat, rot=(180 * D, 0, 0), verts=32)
 
-    star_mat = emission_mat("orbit-star", (0.9, 0.95, 1.0), 1.5)
-    for i in range(40):
-        a = i * 2.399963
-        r = 40.0 + (i % 7) * 4.0
-        zz = -10.0 + (i * 37 % 40)
-        sphere(f"orbit-star-{i}", (x + r * math.cos(a), 25.0 + r * 0.6 * math.sin(a), zz),
-               0.14, star_mat, seg=8, ring=4)
+    sat_body = surface_mat("orbit-sat", (0.62, 0.64, 0.70), rough=0.35, metal=0.5)
+    panel = surface_mat("orbit-panel", (0.06, 0.12, 0.32), rough=0.25, metal=0.4,
+                        emit=(0.10, 0.18, 0.45), emit_strength=0.25)
+    sats = []
+    for i in range(4):
+        a = i * (math.pi / 2.0) + 0.4
+        r = 9.0
+        loc = (x + r * math.cos(a), 12.0 + r * 0.55, -14.0 + r * math.sin(a))
+        parts = [cube(f"sat-{i}", loc, 0.36, sat_body)]
+        for side in (-1, 1):
+            p = cube(f"sat-{i}-panel-{side}", (loc[0] + side * 0.55, loc[1], loc[2]), 1.0, panel)
+            p.scale = (0.42, 0.03, 0.16)
+            parts.append(p)
+        sats.append((parts, loc, a))
 
-    suit = surface_mat("orbit-suit", (0.80, 0.83, 0.88), rough=0.45,
-                       emit=(0.9, 0.92, 0.95), emit_strength=0.18)
-    visor = surface_mat("orbit-visor", (0.02, 0.03, 0.05), rough=0.1, metal=0.9)
-    base = (x - 2.0, -2.0, 3.0)
-    parts = make_figure("orbit-astro", base, suit, suit)
-    parts.append(sphere("orbit-helmet", (base[0], base[1], base[2] + 1.44), 0.26, suit))
-    parts.append(sphere("orbit-visor", (base[0], base[1] - 0.16, base[2] + 1.44), 0.17, visor))
-    bases = [(p.location.x, p.location.y, p.location.z) for p in parts]
-    shell_mat = shell.data.materials[0]
+    person_mat = surface_mat("orbit-person", (0.10, 0.10, 0.12), rough=0.8)
+    skin_mat = surface_mat("orbit-skin", (0.12, 0.10, 0.09), rough=0.7)
+    make_figure("person-ground", (x, -3.2, -20.0), person_mat, skin_mat)
 
-    f0, f1 = shot_window(shotlist, "10-space")
+    # the fix drifts: a marker sliding away from the person, 10 km exaggerated
+    fix_mat = emission_mat("orbit-fix", (1.0, 0.25, 0.15), 1.4)
+    marker = cube("orbit-fix", (x, -2.0, -19.9), 0.25, fix_mat)
+
+    f0, f1 = shot_window(shotlist, "10-gps")
+    for i, (parts, loc, a) in enumerate(sats):
+        for p in parts:
+            key_rot(p, f0, (0, 0, a))
+            key_rot(p, f1, (0, 0, a + 0.6))
     key_rot(earth, f0, (0, 0, 0))
-    key_rot(earth, f1, (0, 0, 0.12))
-    for i, p in enumerate(parts):
-        key_loc(p, f0, bases[i])
-        key_loc(p, f1, (bases[i][0] + 0.9, bases[i][1] + 0.5, bases[i][2] - 0.3))
-    key_strength(shell_mat, f0, 1.4)
-    key_strength(shell_mat, f1, 1.9)
+    key_rot(earth, f1, (0, 0, 0.10))
 
-    f0, f1 = shot_window(shotlist, "11-thin-layer")
-    key_rot(earth, f0, (0, 0, 0.12))
+    f0, f1 = shot_window(shotlist, "11-sat")
+    for parts, loc, a in sats:
+        for p in parts:
+            key_rot(p, f0, (0, 0, a + 0.6))
+            key_rot(p, f1, (0, 0, a + 1.1))
+    key_rot(earth, f0, (0, 0, 0.10))
+    key_rot(earth, f1, (0, 0, 0.16))
+
+    sig_mat = emission_mat("orbit-signal", (0.35, 0.75, 1.0), 1.0)
+    f0, f1 = shot_window(shotlist, "12-farq")
+    for i, (parts, loc, a) in enumerate(sats):
+        ob = cylinder(f"orbit-signal-{i}", (x, (loc[1] - 19.9) / 2.0, (loc[2] - 19.9) / 2.0),
+                      0.02, 1.0, sig_mat, verts=6)
+        key_scale(ob, f0, (1, 1, 0.01))
+        key_scale(ob, f0 + 10 + i * 4, (1, 1, 1))
+        key_scale(ob, f1, (1, 1, 1))
+
+    f0, f1 = shot_window(shotlist, "13-drift")
+    key_loc(marker, f0, (x, -2.0, -19.9))
+    key_loc(marker, f1, (x + 2.6, -1.2, -19.9))
+    f0, f1 = shot_window(shotlist, "14-twist")
+    key_loc(marker, f0, (x + 2.6, -1.2, -19.9))
+    key_loc(marker, f1, (x + 2.8, -1.1, -19.9))
+    key_rot(earth, f0, (0, 0, 0.16))
     key_rot(earth, f1, (0, 0, 0.20))
-    for i, p in enumerate(parts):
-        key_loc(p, f0, (bases[i][0] + 0.9, bases[i][1] + 0.5, bases[i][2] - 0.3))
-        key_loc(p, f1, (bases[i][0] + 1.0, bases[i][1] - 0.6, bases[i][2] + 0.1))
-    key_strength(shell_mat, f0, 1.9)
-    key_strength(shell_mat, f1, 2.4)
 
-    f0, f1 = shot_window(shotlist, "12-no-air")
-    key_scale(shell, f0, (1, 1, 1))
-    key_scale(shell, f0 + 12, (1.004, 1.004, 1.004))
-    key_scale(shell, f1, (1.0, 1.0, 1.0))
+    f0, f1 = shot_window(shotlist, "15-pahad")
     key_rot(earth, f0, (0, 0, 0.20))
     key_rot(earth, f1, (0, 0, 0.24))
-    key_strength(shell_mat, f0, 2.4)
-    key_strength(shell_mat, f1, 2.8)
+    return {"earth": earth, "marker": marker}
 
 
 # ----------------------------------------------------------------------------- cameras
 def build_cameras(shotlist):
     cams = {}
-    for name in ("cam-wide", "cam-action", "cam-macro", "cam-pov"):
+    for name in ("cam-wide", "cam-action", "cam-macro", "cam-pov", "cam-rise", "cam-face"):
         bpy.ops.object.camera_add(location=(0, 0, 0), rotation=(90 * D, 0, 0))
         cam = bpy.context.object
         cam.name = name
         cam.data.lens = 35
-        cam.data.clip_start = 0.05
+        cam.data.clip_start = 0.02
         cam.data.clip_end = 5000.0
         cams[name] = cam
 
@@ -589,25 +552,25 @@ def build_cameras(shotlist):
 
 
 def build_lights():
-    bpy.ops.object.light_add(type="SUN", location=(0, -40, 70))
+    bpy.ops.object.light_add(type="SUN", location=(0, -40, 30))
     sun = bpy.context.object
     sun.name = "light-sun"
-    sun.data.energy = 3.0
-    sun.data.angle = 2.0 * D
-    sun.rotation_euler = (55 * D, 0, 20 * D)
+    sun.data.energy = 2.4
+    sun.data.angle = 3.0 * D
+    sun.rotation_euler = (62 * D, 0, 18 * D)
 
-    bpy.ops.object.light_add(type="AREA", location=(BEAM - 10, -14, 18))
+    bpy.ops.object.light_add(type="AREA", location=(LAB - 2, 0.5, 4.5))
     fill = bpy.context.object
-    fill.name = "light-fill"
-    fill.data.energy = 900.0
-    fill.data.size = 14.0
-    fill.rotation_euler = (40 * D, 0, -35 * D)
+    fill.name = "light-lab"
+    fill.data.energy = 260.0
+    fill.data.size = 6.0
+    fill.rotation_euler = (55 * D, 0, -20 * D)
 
-    bpy.ops.object.light_add(type="SUN", location=(ORBIT - 60, 120, 60))
+    bpy.ops.object.light_add(type="SUN", location=(ORBIT - 40, 60, 40))
     key = bpy.context.object
     key.name = "light-orbit"
-    key.data.energy = 4.5
-    key.rotation_euler = (110 * D, 0, -60 * D)
+    key.data.energy = 3.2
+    key.rotation_euler = (115 * D, 0, -55 * D)
 
 
 def setup_world(shotlist):
@@ -615,7 +578,7 @@ def setup_world(shotlist):
     bpy.context.scene.world = world
     world.use_nodes = True
     bg = world.node_tree.nodes.get("Background")
-    bg.inputs[0].default_value = (0.008, 0.010, 0.020, 1.0)
+    bg.inputs[0].default_value = (0.006, 0.008, 0.014, 1.0)
     bg.inputs[1].default_value = 1.0
 
     sc = bpy.context.scene
@@ -652,8 +615,8 @@ def main():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     setup_world(shotlist)
 
-    build_sky(shotlist)
-    build_beam(shotlist)
+    build_tower(shotlist)
+    build_lab(shotlist)
     build_orbit(shotlist)
     build_lights()
     cams = build_cameras(shotlist)

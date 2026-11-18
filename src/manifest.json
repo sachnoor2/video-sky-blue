@@ -1,100 +1,135 @@
 {
   "fps": 30,
-  "pad": 0.45,
+  "pad": 0.4,
   "engine": "piper+warm-chain",
   "voice": "hi_IN-pratham-medium.onnx",
   "music": false,
-  "totalFrames": 2245,
+  "totalFrames": 2712,
   "scenes": [
     {
       "id": "01-hook",
-      "seconds": 6.123,
-      "frames": 197,
-      "caption": "Aasman ka neela rang aasman ka hai hi nahi",
+      "seconds": 5.179,
+      "frames": 167,
+      "caption": "Sar aur pair - time alag chalta hai",
       "lexicon": []
     },
     {
-      "id": "02-white-light",
-      "seconds": 4.158,
+      "id": "02-proof",
+      "seconds": 4.833,
+      "frames": 157,
+      "caption": "Ye kahawat nahi, lab mein naapa gaya hai",
+      "lexicon": []
+    },
+    {
+      "id": "03-base",
+      "seconds": 3.378,
+      "frames": 113,
+      "caption": "Zameen ke paas ghadi dheere chalti hai",
+      "lexicon": []
+    },
+    {
+      "id": "04-roof",
+      "seconds": 3.448,
+      "frames": 115,
+      "caption": "Upar wali ghadi zara tez chalti hai",
+      "lexicon": []
+    },
+    {
+      "id": "05-why",
+      "seconds": 6.087,
+      "frames": 195,
+      "caption": "Wajah hai gravity",
+      "lexicon": []
+    },
+    {
+      "id": "06-rate",
+      "seconds": 4.191,
       "frames": 138,
-      "caption": "Suraj ki safed roshni mein saare rang hain",
+      "caption": "Har meter par time ki raftaar badalti hai",
       "lexicon": []
     },
     {
-      "id": "03-molecules",
-      "seconds": 7.447,
-      "frames": 237,
-      "caption": "Hawa mein nitrogen aur oxygen ke anu",
+      "id": "07-life",
+      "seconds": 6.281,
+      "frames": 200,
+      "caption": "80 saal mein 470 nanosecond ka farq",
       "lexicon": []
     },
     {
-      "id": "04-scatter",
-      "seconds": 6.025,
-      "frames": 194,
-      "caption": "Roshni anuon se takrati hai, rang bikharte hain",
+      "id": "08-mm",
+      "seconds": 4.158,
+      "frames": 137,
+      "caption": "Ab ye ek millimetre mein naapa gaya",
       "lexicon": []
     },
     {
-      "id": "05-number",
-      "seconds": 5.143,
-      "frames": 168,
-      "caption": "Neela rang laal se 5.9 guna zyada bikharta hai",
+      "id": "09-clock",
+      "seconds": 4.237,
+      "frames": 139,
+      "caption": "Optical clock 1 mm ka farq pakadti hai",
       "lexicon": []
     },
     {
-      "id": "06-violet",
-      "seconds": 5.352,
-      "frames": 174,
-      "caption": "Violet aur zyada bikharta hai, par aankh kam dekhti hai",
+      "id": "10-gps",
+      "seconds": 4.018,
+      "frames": 133,
+      "caption": "Yahi ganit aapke nakshey ko chalata hai",
       "lexicon": []
     },
     {
-      "id": "07-all-directions",
-      "seconds": 4.808,
-      "frames": 158,
-      "caption": "Aasman har disha se neeli roshni bhejta hai",
-      "lexicon": []
-    },
-    {
-      "id": "08-sunset-path",
-      "seconds": 4.493,
+      "id": "11-sat",
+      "seconds": 4.539,
       "frames": 148,
-      "caption": "Shaam ko roshni 38 guna lamba raasta chalti hai",
+      "caption": "Satellite ki ghadi upar hai, tez chalti hai",
       "lexicon": []
     },
     {
-      "id": "09-sunset-red",
-      "seconds": 5.504,
-      "frames": 179,
-      "caption": "Neela bikharta hai, sirf laal bachta hai",
+      "id": "12-farq",
+      "seconds": 4.576,
+      "frames": 149,
+      "caption": "Roz 38 microsecond ka farq",
       "lexicon": []
     },
     {
-      "id": "10-space",
-      "seconds": 4.446,
-      "frames": 147,
-      "caption": "Space se aasman bilkul kaala hai",
+      "id": "13-drift",
+      "seconds": 5.226,
+      "frames": 169,
+      "caption": "Bina correction 10 km roz khisak",
       "lexicon": []
     },
     {
-      "id": "11-thin-layer",
-      "seconds": 3.564,
-      "frames": 120,
-      "caption": "Wahan bikhne ke liye hawa hi nahi hai",
+      "id": "14-twist",
+      "seconds": 5.613,
+      "frames": 180,
+      "caption": "Abhi ek cheez nahi - har unchai ka apna abhi",
       "lexicon": []
     },
     {
-      "id": "12-no-air",
-      "seconds": 3.773,
-      "frames": 127,
-      "caption": "Neeche bas ek patli neeli parat",
+      "id": "15-pahad",
+      "seconds": 5.515,
+      "frames": 177,
+      "caption": "Pahaad par 80 saal = aadha millisecond bada",
       "lexicon": []
     },
     {
-      "id": "13-recap",
-      "seconds": 8.144,
-      "frames": 258,
-      "caption": "Hawa neele rang ko sabse zyada bikherti hai",
+      "id": "16-recap",
+      "seconds": 4.671,
+      "frames": 152,
+      "caption": "Time ghadi nahi, jagah hai",
+      "lexicon": []
+    },
+    {
+      "id": "17-close",
+      "seconds": 3.972,
+      "frames": 131,
+      "caption": "Aapki ghadi batati hai aap kahan hain",
+      "lexicon": []
+    },
+    {
+      "id": "18-end",
+      "seconds": 3.332,
+      "frames": 112,
+      "caption": "Aapka abhi sirf aapka hai",
       "lexicon": []
     }
   ]

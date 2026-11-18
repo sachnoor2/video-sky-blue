@@ -1,7 +1,7 @@
 export const theme = {
-  ink: "#07101d",
-  paper: "#f5f8ff",
-  accent: "#4d8bff",
+  ink: "#0a0a0c",
+  paper: "#f7f3e8",
+  accent: "#e8a33d",
   caption: {
     fontFamily: "Inter, system-ui, sans-serif",
     fontWeight: 800,
@@ -12,5 +12,5 @@ export const theme = {
     maxWidth: "86%",
     lineHeight: 1.18,
   },
-  palette: ["#07101d", "#4d8bff", "#ff7a3d", "#f5f8ff"],
+  palette: ["#0a0a0c", "#e8a33d", "#6f8fb8", "#f7f3e8"],
 };

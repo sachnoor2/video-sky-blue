@@ -1,73 +1,98 @@
 {
   "fps": 30,
-  "pad": 0.45,
-  "minSeconds": 3.4,
+  "pad": 0.4,
+  "minSeconds": 2.8,
   "lengthScale": 1.0,
   "scenes": [
     {
       "id": "01-hook",
-      "text": "आसमान का नीला रंग आसमान का है ही नहीं। ये रोशनी का खेल है।",
-      "caption": "Aasman ka neela rang aasman ka hai hi nahi"
+      "text": "आपका सर और आपके पैर, दोनों के लिए समय अलग चलता है।",
+      "caption": "Sar aur pair - time alag chalta hai"
     },
     {
-      "id": "02-white-light",
-      "text": "सूरज की सफेद रोशनी में सारे रंग छिपे हुए हैं।",
-      "caption": "Suraj ki safed roshni mein saare rang hain"
+      "id": "02-proof",
+      "text": "ये कहावत नहीं है। इसे लैब में नापा गया है।",
+      "caption": "Ye kahawat nahi, lab mein naapa gaya hai"
     },
     {
-      "id": "03-molecules",
-      "text": "हवा में नाइट्रोजन और ऑक्सीजन के अणु तैरते हैं। ये रोशनी की लहर से हज़ार गुना छोटे हैं।",
-      "caption": "Hawa mein nitrogen aur oxygen ke anu"
+      "id": "03-base",
+      "text": "ज़मीन के पास घड़ी धीरे चलती है।",
+      "caption": "Zameen ke paas ghadi dheere chalti hai"
     },
     {
-      "id": "04-scatter",
-      "text": "रोशनी जब इन अणुओं से टकराती है, तो हर रंग अलग दिशा में बिखर जाता है।",
-      "caption": "Roshni anuon se takrati hai, rang bikharte hain"
+      "id": "04-roof",
+      "text": "ऊपर वाली घड़ी ज़रा तेज़ चलती है।",
+      "caption": "Upar wali ghadi zara tez chalti hai"
     },
     {
-      "id": "05-number",
-      "text": "नीला रंग लाल रंग से लगभग फाइव पॉइंट नाइन गुना ज़्यादा बिखरता है।",
-      "caption": "Neela rang laal se 5.9 guna zyada bikharta hai"
+      "id": "05-why",
+      "text": "वजह है ग्रैविटी। जो ज़मीन के करीब है, उसका समय धीमा है।",
+      "caption": "Wajah hai gravity"
     },
     {
-      "id": "06-violet",
-      "text": "वायलेट रंग और भी ज़्यादा बिखरता है, पर आँखें उसे कम देखती हैं।",
-      "caption": "Violet aur zyada bikharta hai, par aankh kam dekhti hai"
+      "id": "06-rate",
+      "text": "हर मीटर ऊँचाई पर समय की रफ़्तार बदल जाती है।",
+      "caption": "Har meter par time ki raftaar badalti hai"
     },
     {
-      "id": "07-all-directions",
-      "text": "इसीलिए आसमान हर दिशा से नीली रोशनी भेजता है।",
-      "caption": "Aasman har disha se neeli roshni bhejta hai"
+      "id": "07-life",
+      "text": "अस्सी साल में आपका सर पैरों से करीब फोर हंड्रेड सेवेंटी नैनोसेकंड आगे निकल जाता है।",
+      "caption": "80 saal mein 470 nanosecond ka farq"
     },
     {
-      "id": "08-sunset-path",
-      "text": "शाम को रोशनी हवा में अड़तीस गुना लंबा रास्ता चलती है।",
-      "caption": "Shaam ko roshni 38 guna lamba raasta chalti hai"
+      "id": "08-mm",
+      "text": "और अब इसे सिर्फ़ एक मिलीमीटर में नाप लिया गया है।",
+      "caption": "Ab ye ek millimetre mein naapa gaya"
     },
     {
-      "id": "09-sunset-red",
-      "text": "लंबे रास्ते में नीला रंग बिखर जाता है, और सिर्फ़ लाल बचता है।",
-      "caption": "Neela bikharta hai, sirf laal bachta hai"
+      "id": "09-clock",
+      "text": "ऑप्टिकल घड़ी एक मिलीमीटर का फ़र्क़ पकड़ लेती है।",
+      "caption": "Optical clock 1 mm ka farq pakadti hai"
     },
     {
-      "id": "10-space",
-      "text": "और अंतरिक्ष से देखिए, आसमान बिलकुल काला है।",
-      "caption": "Space se aasman bilkul kaala hai"
+      "id": "10-gps",
+      "text": "यही गणित आपके फ़ोन के नक़्शे को चलाता है।",
+      "caption": "Yahi ganit aapke nakshey ko chalata hai"
     },
     {
-      "id": "11-thin-layer",
-      "text": "क्योंकि वहाँ बिखेरने के लिए हवा ही नहीं है।",
-      "caption": "Wahan bikhne ke liye hawa hi nahi hai"
+      "id": "11-sat",
+      "text": "सैटलाइट की घड़ी ऊपर है, इसलिए वो तेज़ चलती है।",
+      "caption": "Satellite ki ghadi upar hai, tez chalti hai"
     },
     {
-      "id": "12-no-air",
-      "text": "नीचे बस एक पतली नीली परत दिखती है।",
-      "caption": "Neeche bas ek patli neeli parat"
+      "id": "12-farq",
+      "text": "रोज़ करीब थर्टी एट माइक्रोसेकंड का फ़र्क़ बनता है।",
+      "caption": "Roz 38 microsecond ka farq"
     },
     {
-      "id": "13-recap",
-      "text": "तो नीला रंग हवा में बनता है। आसमान नीला है, क्योंकि हवा नीले रंग को सबसे ज़्यादा बिखेरती है।",
-      "caption": "Hawa neele rang ko sabse zyada bikherti hai"
+      "id": "13-drift",
+      "text": "इसे ठीक न किया जाए, तो लोकेशन रोज़ दस किलोमीटर खिसक जाए।",
+      "caption": "Bina correction 10 km roz khisak"
+    },
+    {
+      "id": "14-twist",
+      "text": "यानी अभी कोई एक चीज़ नहीं है। हर ऊँचाई का अपना अभी है।",
+      "caption": "Abhi ek cheez nahi - har unchai ka apna abhi"
+    },
+    {
+      "id": "15-pahad",
+      "text": "पहाड़ पर अस्सी साल रहने से आप आधा मिलीसेकंड ज़्यादा बूढ़े होते हैं।",
+      "caption": "Pahaad par 80 saal = aadha millisecond bada"
+    },
+    {
+      "id": "16-recap",
+      "text": "समय घड़ी नहीं है। समय एक जगह है।",
+      "caption": "Time ghadi nahi, jagah hai"
+    },
+    {
+      "id": "17-close",
+      "text": "और आपकी घड़ी बताती है कि आप कहाँ हैं।",
+      "caption": "Aapki ghadi batati hai aap kahan hain"
+    },
+    {
+      "id": "18-end",
+      "text": "आपका अभी, सिर्फ़ आपका है।",
+      "caption": "Aapka abhi sirf aapka hai"
     }
   ]
 }
